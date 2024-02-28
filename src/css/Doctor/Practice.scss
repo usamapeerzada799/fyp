@@ -1,0 +1,85 @@
+// Practice.scss
+
+.Practice {
+    // Styles for the parent container
+  margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+    
+    span {
+      // Styles for the "Practice" title
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .itrate {
+      // Styles for each iteration of practice data
+      margin-top: 20px;
+      display: flex;
+      flex-direction: row;
+      border: 3px solid #73AD21;
+      background-color: rgba(127, 255, 212, 0.844);
+      
+      h3 {
+        // Styles for the practice title
+        font-size: 18px;
+        color: #555;
+        margin-left: 50px;
+      }
+       hr{
+        position: absolute;
+        right: 350px;
+        color: #333;
+        width:10px;
+        height: 40px; 
+       }
+      button {
+        // Styles for the toggle button
+        position: absolute;
+        right: 312px; 
+        width: 30px;
+        height: 50px;
+        font-size: 30px;
+        // padding: 10px;
+        margin-top: 5px;
+        background-color: none;
+        cursor: pointer;
+      }
+    }
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust as needed */
+        gap: 20px; /* Adjust the gap between grid items */
+        .togleData {
+          display: flex;
+          flex-direction: column;
+          align-items: center; /* Center items horizontally */
+
+            img {
+              max-width: 100%;
+              height: auto;
+            }
+        }
+    }
+    
+
+    .BtnAddpractic {
+      // Styles for the "ADD new Practice" button
+      margin-top: 20px;
+     
+      button{
+        padding: 10px 20px;
+        background-color: grey;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        text-transform: uppercase;
+      }
+    }
+  }
+  

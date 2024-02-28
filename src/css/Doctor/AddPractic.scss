@@ -1,0 +1,60 @@
+.Container{
+  margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+    span{
+        text-align: center;
+        font-size: 30px;
+    }
+    .top {
+        display: flex;
+        flex-direction: row;
+        align-items: center; // Align items vertically in the center
+        justify-content: center; // Distribute space between elements
+        width: 100%; // Ensure it takes up the full width
+        background-color: #81dfdfe2;
+        border: 3px solid #426315;
+        gap:30px;
+        .inputfield{
+            input{
+                height: 35px;
+                font-size: 25px;
+                
+            }
+        }
+        .dropdown {
+          select{
+            height: 35px;
+            font-size: 25px;
+          }
+        }
+        @media only screen and (max-width: 768px) {
+            flex-direction: column;
+        
+            .inputfield,
+            .dropdown {
+              width: 100%;
+              margin-bottom: 10px;
+              
+            }
+          }
+      }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust as needed */
+        gap: 20px; /* Adjust the gap between grid items */
+        .colletions {
+          display: flex;
+          flex-direction: column;
+          align-items: center; /* Center items horizontally */
+          height: 300px;
+          border: 5px solid green;
+           img{
+            height: 50px;
+           }
+        }
+    }
+}
