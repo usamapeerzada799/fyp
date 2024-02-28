@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../css/Doctor/Practice.scss'
+import GlobalVariables from './Globel'
 const Practice = () => {
   const [data,setData]=useState([]);
   const [pracTitle,SetpracTitle]=useState([]);
@@ -12,7 +13,7 @@ const Practice = () => {
     const fetchDAta = async()=>
     {
        try{ 
-        const responce = await fetch("http://192.168.1.111/LernSpace/api/Practice/userDefindPractices?Uid=4");
+        const responce = await fetch(GlobalVariables.apiUrl+"/api/Practice/userDefindPractices?Uid=4");
         const data=await responce.json();
         console.log(data);
         setData(data)
@@ -54,7 +55,7 @@ const Practice = () => {
         
         {pracTitle.map((e,index)=>{
         return(
-          <div>
+          <div key={index}>
           <div className="itrate" key={index}>
             <h3>{e.title}</h3>
             <hr/>
@@ -64,7 +65,7 @@ const Practice = () => {
             <div className="grid-container">
               {singlePracticData.map((item,index) => (
                 <div key={index} className="togleData">
-                  <img src={"http://192.168.1.111/LernSpace"+item.picPath}></img>
+                  <img src={GlobalVariables.apiUrl+item.picPath}></img>
                   <h4>{item.eText}</h4>
                 </div>
               ))}

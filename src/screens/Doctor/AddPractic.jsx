@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react"
 import { Link, NavLink, json } from "react-router-dom";
 import '../../css/Doctor/AddPractic.scss'
+import GlobalVariables from './Globel'
 const AddPractic = () => {
     const[data,setData]=useState([])
     const [selectedOption, setSelectedOption] = useState('a');
@@ -13,7 +14,7 @@ const AddPractic = () => {
         const fetchDAta = async()=>
         {
            try{
-            const responce = await fetch("http://192.168.1.111/LernSpace/api/Collection/GetAllCollection");
+            const responce = await fetch(GlobalVariables.apiUrl+"/api/Collection/GetAllCollection");
             const data=await responce.json();
             console.log(data);
             setData(data);
@@ -59,7 +60,7 @@ const AddPractic = () => {
             const dataa={practice:{stage:selectStage,title:title,createBy:4},collections:collectionData};
             console.log(dataa);
         
-            const responce=await fetch("http://192.168.1.111/LernSpace/api/Practice/AddNewPractice",
+            const responce=await fetch(GlobalVariables.apiUrl+"/api/Practice/AddNewPractice",
             {
                 method:'POST',
                 headers: {
@@ -109,8 +110,8 @@ const AddPractic = () => {
                     if (item.type === selectedOption) {
                         return( 
                             <div key={index} className="collections">
-                               <img src={"http://192.168.1.111/LernSpace"+item.picPath}></img>
-                               <div>
+                               <img src={GlobalVariables.apiUrl+item.picPath}></img>
+                               <div className="text-content">
                                <h4>{item.eText}</h4>
                                <input
                                     type="checkbox"
