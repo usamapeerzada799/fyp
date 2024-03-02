@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react"
-import { Link, NavLink, json } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../../css/Doctor/AddPractic.scss'
 import GlobalVariables from './Globel'
 const AddPractic = () => {
@@ -10,6 +10,7 @@ const AddPractic = () => {
     const [collectionData,setCollectionData]=useState([]);
     const [newPraticData,setNewPracticData]=useState({});
     const [title,setTitle]=useState('')
+    const   navigate=useNavigate()
     useEffect(()=>{
         const fetchDAta = async()=>
         {
@@ -69,9 +70,11 @@ const AddPractic = () => {
                 },
                 body:JSON.stringify(dataa),
             }
+            
             );
             const res=await responce.json();
             console.log(res)
+            navigate('/Practice', { state: data })
         }catch {
             console.log("data not save")
         }
@@ -127,11 +130,11 @@ const AddPractic = () => {
                 })}
             </div>
             <div>
-                <Link to='/Practice'>
+                
                 <button onClick={newprac}>
                 <span>ADD new Practice</span>
                 </button>
-                </Link>
+                
             </div>
     </div>
 

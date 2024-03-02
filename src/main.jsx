@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-
-import App from './screens/Doctor/AddPractic.jsx'
+import Login from './screens/Login.jsx'
+import Appointment from './screens/Doctor/Appointment.jsx';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -12,6 +12,8 @@ import Practice from './screens/Doctor/Practice.jsx'
 
 
 import AddPractic from './screens/Doctor/AddPractic.jsx';
+import Experiment from './screens/Exparimet.jsx';
+
 const router = createBrowserRouter(
   [  {
    path: "/",
@@ -39,6 +41,18 @@ const router = createBrowserRouter(
      path:'/AddPractice',
      element:<AddPractic/>
    },
+   {
+    path:'/Login',
+    element:<Login/>
+  },
+  {
+    path:'/Appointment',
+    element:<Appointment/>
+  },
+  {
+    path:'/Experiment',
+    element:<Experiment/>
+  },
  ]);
  
  ReactDOM.createRoot(document.getElementById("root")).render(
