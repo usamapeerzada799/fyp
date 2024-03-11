@@ -12,7 +12,7 @@ const Exparimet = () => {
     </div>
   </div>
   <div className="accordion-item">
-    <h2 className="accordion-header">
+    <h2 className="accordion-header">   
       <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
         Accordion Item #2
       </button>

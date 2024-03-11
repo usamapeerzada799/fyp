@@ -98,7 +98,7 @@ const Practice = () => {
              <div className="row">
                {singlePracticData.map((item,index) => (
                  <div key={index} className="col-lg-3 col-md-4 col-sm-4 col-4"> {/* Adjust column sizes as needed */}
-                   <div className="togleData">
+                   <div className="togleData Practic" >
                      <img src={GlobalVariables.apiUrl + item.picPath} className="img-fluid " style={{height: '150px'}} alt="Practice Image" />
                      <h4>{item.eText}</h4>
                    </div>

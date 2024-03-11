@@ -1,12 +1,12 @@
 import { useState,useEffect } from "react"
-import {useLocation} from 'react-router-dom'
+import {useLocation,useNavigate} from 'react-router-dom'
 import GlobalVariables from "./Globel"
 const Appointment = () => {
-    const[appointData,setApointData]=useState([{id:1,stage:"II", name:'usama',image:"https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600center;",time:"12:12pm"},
-    {id:1,stage:"II", name:'usama',image:"https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600center;",time:"12:12pm"},
-    {id:1,stage:"II", name:'usama',image:"https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600center;",time:"12:12pm"}   ])
+    const[appointData,setApointData]=useState([])
+    
     const[appointmentsData,setAppointmentsData]=useState([])
     const[doctor,setDoctor]=useState({})
+    const navigate = useNavigate();
     const location = useLocation();
     useEffect(()=>{
         const fetchData = async () => {
@@ -72,7 +72,7 @@ const Appointment = () => {
           <div className="todayApp" >
             {appointmentsData.map((item,index) => (
               <div key={index} className="d-grid">
-                <button className="btn-lg btn btn-outline-info">
+                <button className="btn-lg btn btn-outline-info" onClick={()=>{ navigate('/AppointmentDetails', { state: item })}}>
                 <div className="row align-items-center m-1 text-light " style={{ backgroundColor: '#0DB495', borderRadius: '10px' }}>
                   <div className="col-4">
                     <img className="img-fluid rounded-circle" style={{ width: '100px', height: '85px' }} src={GlobalVariables.apiUrl+item.profPicPath} alt="" />

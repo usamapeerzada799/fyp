@@ -1,99 +1,10 @@
-/* styles.css */
-
-.container {
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100vh; /* Take up the full viewport height */
+.Practic img{
+  width: 100%;
+  aspect-ratio: 3/2;
+  object-fit: contain;
 }
-.card {
-  width: 500px; /* Set the width of the card */
-  background-color: #f0f0f0; /* Background color */
-  border: 1px solid #ccc; /* Border color and width */
-  border-radius: 8px; /* Rounded corners */
-  padding: 20px; /* Add some padding */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+.AddPrac img{
+  width: 100%;
+  aspect-ratio: 3/2;
+  object-fit: contain;
 }
-.doctor{
-  display: flex;
-  gap:50px;
-}
-.doctor img {
-  width: 150px; /* Make the image fill its container */
-  height: 150px;
-  border-radius: 50%; /* Rounded corners for the image */
-  margin-bottom: 10px; /* Add some space between the image and the text */
-}
-
-.dInfo {
-  text-align: center; /* Center align text */
-  margin-top: 45px;
-}
-
-.dInfo span {
-  
-  display: block; /* Make spans behave like block elements */
-  font-weight: bold; /* Make text bold */
-  color: #333; /* Text color */
-  margin-bottom: 5px; /* Add some space between spans */
-}
-
-hr {
-  margin: 20px 0; /* Add margin above and below the hr */
-  border: none; /* Remove default border */
-  border-top: 1px solid #ccc; /* Add a border on top */
-}
-.appoint img {
-  width: 150px; /* Make the image fill its container */
-  height: 150px;
-  border-radius: 50%; /* Rounded corners for the image */
-  margin-bottom: 10px; /* Add some space between the image and the text */
-}
-.appoint{
-  display: flex;
-  gap:70px;
-}
-.appinfo {
-  
-  margin-top: 20px;
-}
-
-.appinfo span {
-  
-  display: block; /* Make spans behave like block elements */
-  font-weight: bold; /* Make text bold */
-  color: #333; /* Text color */
-  margin-bottom: 5px; /* Add some space between spans */
-}
-.card span {
-  font-weight: bold;
-  font-size: 20px;
-}
-.image-container {
-  position: relative;
-  display: inline-block;
-}
-
-.image {
-  display: block;
-  max-width: 100%;
-  width: 500px;
-}
-
-.text-overlay {
-  position: absolute;
-  bottom: 170px; /* Adjust as needed */
-  left: 160px; /* Adjust as needed */
-  color: white; /* Text color */
-  font-size: 54px; /* Text size */
-  font-weight: bold; /* Text weight */
-  color: whitesmoke;
-  padding: 10px; /* Padding around text */
-}
-.dropdown {
-  position: relative;
-  top:20%; /* Adjust as needed */
-  right: 30%; /* Adjust as needed */
-}
-
-

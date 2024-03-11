@@ -2,6 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Login from './screens/Login.jsx'
 import Appointment from './screens/Doctor/Appointment.jsx';
+import AppointmentDetails from './screens/Doctor/AppointmentDetails.jsx';
+import AddNewAppointment from './screens/Doctor/AddNewAppointment.jsx';
+import TestDetail from './screens/Doctor/TestDetail.jsx';
+
+import './index.css'
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -52,6 +57,18 @@ const router = createBrowserRouter(
   {
     path:'/Experiment',
     element:<Experiment/>
+  },
+  {
+    path:'/AppointmentDetails',
+    element:<AppointmentDetails/>
+  },
+  {
+    path:'/TestDetail',
+    element:<TestDetail/>
+  },
+  {
+    path:'/AddNewAppointment',
+    element:<AddNewAppointment/>
   },
  ]);
  
