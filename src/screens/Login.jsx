@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { Form, Button, Card } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import GlobalVariables from '../screens/Doctor/Globel'
 const Login = () => {
   const [username,setUsername]=useState('')
   const [password,setPassword]=useState('')
-  const [userData,setUserData]=useState({})
+  
   const navigate = useNavigate();
   const login = async()=>
     {
@@ -19,8 +19,11 @@ const Login = () => {
         if(data==="invalid Username Or Password"){
           alert('Invalid username or password');
         }else{
-          setUserData(data)
+          
+          if(data.type=="doctor")
           navigate('/Appointment', { state: data })
+         else
+          navigate('/CaregiverMain', { state: data })
         }
        }catch(e){
         console.log("user")
@@ -29,21 +32,36 @@ const Login = () => {
       else(alert("Please fill all fields"))
     }
   return (
-    <div className="container d-flex  justify-content-center flex-column align-items-center mt-5"
-    style={{ backgroundColor: '#17a2b8', borderRadius: '10px' }}
+    <div className=""
+    
     >
-    <span className='fs-1' >Solw Lerner</span>
-    <div className="input-group mt-3 align-items-center">
-      <span className="input-group-text fs-5 .bg-danger"> Username</span>
-      <input type="text" className="form-control col-sm-4 fs-5" onChange={(e)=>setUsername(e.target.value)} placeholder="Enter Username"/>
-    </div>
-    <div className="input-group mt-3 ">
-      <span className="input-group-text fs-5">password</span>
-      <input type="password" className="form-control col-sm-4 fs-5" onChange={(e)=>{setPassword(e.target.value)}} placeholder="Enter password"/>
-    </div>
-    <div className='d-grid col-6 mx-auto m-3'>
+       <div className="text-white text-center fs-1" style={{ borderBottomRightRadius: '90%', height: 120, width: '100%', backgroundColor: "#003cb3" }}>
+        <div className=" p-5">SignUp</div>
+      </div>
+      <div className="container-fluid h-100 d-flex justify-content-center align-items-center mt-1">
+        <div className="col-md-6 rounded">
+          <Card className="fs-5 mt-5" style={{ borderRadius: '10px' }}>
+            <Card.Body>
+              <Form >
+                <Form.Group controlId="formBasicName" className='mt-4'>
+                  <Form.Control type="text" placeholder="Enter username" name="Username" value={username} onChange={(e)=>{setUsername(e.target.value)}} required className="form-control-lg" />
+                </Form.Group>
+
+               
+
+                <Form.Group controlId="formBasicPassword" className='mt-4'>
+                  <Form.Control type="password" placeholder="Password" name="password" value={password} onChange={(e)=>{setPassword(e.target.value)}} required className="form-control-lg" />
+                </Form.Group>
+                </Form>
+            </Card.Body>
+          </Card>
+          </div>
+          </div>
+          <div className='d-grid col-6 mx-auto m-3'>
     <button className="btn btn-primary fs-3" type="button" onClick={()=>login()}>Login</button>
     </div>
+    
+    
 </div>
   )
 }

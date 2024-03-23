@@ -5,7 +5,12 @@ import Appointment from './screens/Doctor/Appointment.jsx';
 import AppointmentDetails from './screens/Doctor/AppointmentDetails.jsx';
 import AddNewAppointment from './screens/Doctor/AddNewAppointment.jsx';
 import TestDetail from './screens/Doctor/TestDetail.jsx';
-
+import Test from './screens/Doctor/Test.jsx';
+import CreateTest from './screens/Doctor/CreateTest.jsx';
+import CaregiverMain from './screens/Caregiver/CaregiverMain.jsx';
+import ClinicalDetails from './screens/Caregiver/ClinicalDetails.jsx';
+import Signup from './screens/Signup.jsx';
+import NextVisit from './screens/Caregiver/NextVisit.jsx';
 import './index.css'
 import {
   createBrowserRouter,
@@ -69,6 +74,31 @@ const router = createBrowserRouter(
   {
     path:'/AddNewAppointment',
     element:<AddNewAppointment/>
+  },
+  {
+    path:'/Test',
+    element:<Test/>
+  },
+  {
+    path:'/CreateTest',
+    element:<CreateTest/>
+  },
+ 
+  {
+    path:'/CaregiverMain',
+    element:<CaregiverMain/>
+  },
+  {
+    path:'/ClinicalDetails',
+    element:<ClinicalDetails/>
+  },
+  {
+    path:'/Signup',
+    element:<Signup/>
+  },
+  {
+    path:'/NextVisit',
+    element:<NextVisit/>
   },
  ]);
  

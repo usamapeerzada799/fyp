@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom";
-import '../../css/Doctor/AddPractic.scss'
+import {useLocation,useNavigate} from 'react-router-dom'
+
 import GlobalVariables from './Globel'
 const AddPractic = () => {
   const [data, setData] = useState([])
@@ -9,9 +9,14 @@ const AddPractic = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [collectionData, setCollectionData] = useState([]);
   const [newPraticData, setNewPracticData] = useState({});
+  const[reciveDataCheck,setReciveDataCheck]=useState(0)
   const [title, setTitle] = useState('')
   const navigate = useNavigate()
+  const location=useLocation();
   useEffect(() => {
+    const recivedata=location.state;
+    console.log(recivedata)
+    setReciveDataCheck(recivedata)
     const fetchDAta = async () => {
       try {
         const responce = await fetch(GlobalVariables.apiUrl + "/api/Collection/GetAllCollection");
@@ -57,7 +62,7 @@ const AddPractic = () => {
   const newprac = async () => {
     if (title && selectStage && collectionData) {
       try {
-        const dataa = { practice: { stage: selectStage, title: title, createBy: 4 }, collections: collectionData };
+        const dataa = { practice: { stage: selectStage, title: title, createBy: reciveDataCheck.userId }, collections: collectionData };
         console.log(dataa);
 
         const responce = await fetch(GlobalVariables.apiUrl + "/api/Practice/AddNewPractice",
@@ -73,7 +78,7 @@ const AddPractic = () => {
         );
         const res = await responce.json();
         console.log(res)
-        navigate('/Practice', { state: data })
+        navigate('/Practice', { state: reciveDataCheck })
       } catch {
         console.log("data not save")
       }

@@ -11,15 +11,20 @@ const AppointmentDetails = () => {
   const [allAppointDates,setAllAppoointDates]=useState([])
   const [testData,setTestData]=useState([]);
   const [progress,setProgress]=useState(0);
+  const [AddAppointScreenData,setAddAppointScreenData]=useState();
+  const [date,setDate]=useState();
+  const [recvData,setRecvData]=useState({userId:0})
   const navigate = useNavigate();
     const location = useLocation();
   useEffect(()=>{
-    const receivedData = location.state;
-    //console.log(receivedData)
-    setParientAppData(receivedData)
-    FeactData(receivedData.id,receivedData.pid)
-    AllAppointmentDates(receivedData.pid)
-   
+    let receivedData = location.state;
+    console.log(receivedData)
+    setRecvData(receivedData)
+    setParientAppData(receivedData.item)
+    setAddAppointScreenData({nextAppointDate:receivedData.item.nextAppointDate,patientId:receivedData.item.patientId,userId:receivedData.userId})
+    FeactData(receivedData.item.id,receivedData.item.patientId)
+    AllAppointmentDates(receivedData.item.patientId)
+  
   },[])
   const AllAppointmentDates=async(pId)=>{
     const responce = await fetch(GlobalVariables.apiUrl+`/api/User/GetAllAppointmentsDates?pid=${pId}`);
@@ -52,15 +57,16 @@ const AppointmentDetails = () => {
   }
   return (
     <div className="container align-items-center justify-content-center ">
+        {recvData.userId &&
        <div className="container text-center" style={{width: "70%",height:'50%'}}>
           <span className='d-block p-2  fs-1 mt-3 text-blue fw-bold'>Details</span>
           <div className="border p-3 fs-3" style={{backgroundColor:'#FCCB9F'}}>
           <span className="d-block p-2 ">{patientAppData.name}</span>
           <span className="d-block p-2 ">Age {patientAppData.age}</span>
           </div>
-        </div>
-        <div className="input-group mb-3 mt-3 text-center">
-        <select className="form-select" value={"select"} onChange={()=>{}}>
+        </div>}
+        <div className="input-group mb-4 mt-5 text-center">
+        <select className="form-select" value={date} onChange={(e)=>{FeactData(e.target.value,patientAppData.patientId)}}>
        
           {allAppointDates.map((e)=>{
             const onlydate =new Date(e.appointmentDate).toDateString();
@@ -93,15 +99,18 @@ const AppointmentDetails = () => {
     <div className="progress" style={{height:30}} >
       <div className="progress-bar" role="progressbar" aria-valuenow="70"
       aria-valuemin="0" aria-valuemax="100" style={{width:progress+'%',backgroundColor:'#ab91d9'}}>
-        <span class="sr-only fs-5">{progress}%</span>
+        <span className="sr-only fs-5">{progress}%</span>
       </div>
     </div>
+    
+    {recvData.userId &&
     <div className="row justify-content-center">
         <div className="col-auto mb-3 mt-3">
-          <button className="btn btn-primary btn-lg" onClick={()=>{navigate('/AddNewAppointment',{state:patientAppData.id})}}>Add New Appointment</button>
+          <button className="btn btn-primary btn-lg" onClick={()=>{navigate('/AddNewAppointment',{state:AddAppointScreenData})}}>Add New Appointment</button>
         </div>
       </div>
-      <div className="row justify-content-end">
+  }
+      <div className="row justify-content-end mt-3">
         <div className="col-auto">
           <button className="btn btn-success" onClick={()=>navigate('/TestDetail',{state:testData})}>Test Detail</button>
         </div>

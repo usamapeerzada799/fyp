@@ -25,7 +25,7 @@ const Appointment = () => {
             
             // Format the date as a string (adjust the format as needed)
             const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
-          
+            
            
               const response = await fetch(GlobalVariables.apiUrl+'/api/User/GetAppointments?Did='+receivedData.uid+'&date='+formattedDate+'');
               const data = await response.json();
@@ -70,9 +70,23 @@ const Appointment = () => {
           <hr />
           <h5 className="mt-3 fs-3">Today's Appointments</h5>
           <div className="todayApp" >
-            {appointmentsData.map((item,index) => (
+            {appointmentsData.map((item,index) =>{ 
+              const AppointDateTime = new Date(item.nextAppointDate);
+              const hours = AppointDateTime.getHours();
+              const minutes = AppointDateTime.getMinutes();
+              
+              // Determine if it's AM or PM
+              const ampm = hours >= 12 ? 'PM' : 'AM';
+              
+              // Convert hours to 12-hour format
+              const formattedHours = hours % 12 || 12;
+              
+              // Formatting minutes to always display two digits
+              const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+
+             return (
               <div key={index} className="d-grid">
-                <button className="btn-lg btn btn-outline-info" onClick={()=>{ navigate('/AppointmentDetails', { state: item })}}>
+                <button className="btn-lg btn btn-outline-info" onClick={()=>{ navigate('/AppointmentDetails', { state:{ item,userId: doctor.uid }})}}>
                 <div className="row align-items-center m-1 text-light " style={{ backgroundColor: '#0DB495', borderRadius: '10px' }}>
                   <div className="col-4">
                     <img className="img-fluid rounded-circle" style={{ width: '100px', height: '85px' }} src={GlobalVariables.apiUrl+item.profPicPath} alt="" />
@@ -85,14 +99,14 @@ const Appointment = () => {
                             
                          </div>
                         
-                        <span className="float-end">{item.nextAppointDate}</span>
+                        <span className="float-end">{`${formattedHours}:${formattedMinutes} ${ampm}`}</span>
                     </div>
                     </div>
                 </div>
                 </button>
                 <hr />
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </div>

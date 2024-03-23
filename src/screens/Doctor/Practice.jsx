@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {useLocation,useNavigate} from 'react-router-dom'
 //import '../../css/Doctor/Practice.scss'
 import GlobalVariables from './Globel'
 const Practice = () => {
@@ -8,15 +9,27 @@ const Practice = () => {
   const [singlePracticData,setSinglePractData]=useState([{eText:""}]);
   const [toggle,settoggle]=useState(true)
   const [toglersign,setToglersign]=useState('>')
-  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [reciveDataCheck,setReciveDataCheck]=useState({});
+  const [practicId,setPracticId]=useState()
+  let receivedData=''
+
+ 
   useEffect(()=>{
     const fetchDAta = async()=>
     {
+     
+       
+    
        try{ 
-        const responce = await fetch(GlobalVariables.apiUrl+"/api/Practice/userDefindPractices?Uid=4");
+        receivedData = location.state;
+        console.log(receivedData)
+        setReciveDataCheck(receivedData)
+        const responce = await fetch(GlobalVariables.apiUrl+`/api/Practice/userDefindPractices?Uid=${receivedData.userId}`);
         const data=await responce.json();
-        //console.log(data);
-        setData(data)
+        console.log(data);
+        setData(data);
         const uniqueItems = data.filter((item, index) =>{ 
           const firstIndex= data.findIndex(obj => obj.title === item.title) === index;
         if (firstIndex) {
@@ -27,6 +40,7 @@ const Practice = () => {
         return firstIndex;
         
        });
+       console.log(uniqueItems)
         SetpracTitle(uniqueItems)
         
  
@@ -35,10 +49,10 @@ const Practice = () => {
     }
     fetchDAta()
   },[]) 
+ 
   useEffect(()=>{
-    
-  },[pracTitle]); 
-
+    console.log(reciveDataCheck)
+  },[pracTitle,reciveDataCheck]);
    const singlePracData=(e,ind)=>{
     
     if(e.toggle){ 
@@ -83,9 +97,23 @@ const Practice = () => {
         {pracTitle.map((e,index)=>{
         return(
           <div key={index}>
-          <div className="row align-items-center m-1 text-light" style={{ backgroundColor: '#0DB495', borderRadius: '10px' }}>
+          <div className="row align-items-center m-1 text-light" style={{ backgroundColor: '#0DB495', borderRadius: '10px'}}>
             <div className="col">
-              <h3>{e.title}</h3>
+              {reciveDataCheck.patientId &&   
+                <div className="col-1">
+                  <input
+                type="checkbox"
+                className="form-check-input"
+                 // Check if item is checked
+                 onChange={() =>{ 
+                  setReciveDataCheck({...reciveDataCheck,pracId:e.pracId});
+                 console.log(reciveDataCheck)
+                }}
+              />
+                </div >
+                
+                }
+              <h3 >{e.title}</h3>
               <hr/>
             </div>
             <div className="col-auto">
@@ -97,6 +125,7 @@ const Practice = () => {
              <div className="container">
              <div className="row">
                {singlePracticData.map((item,index) => (
+                
                  <div key={index} className="col-lg-3 col-md-4 col-sm-4 col-4"> {/* Adjust column sizes as needed */}
                    <div className="togleData Practic" >
                      <img src={GlobalVariables.apiUrl + item.picPath} className="img-fluid " style={{height: '150px'}} alt="Practice Image" />
@@ -114,11 +143,15 @@ const Practice = () => {
           )
         })}
         <div className="BtnAddpractic">
-          <Link to='/Addpractice'>
-          <button className="btn btn-primary">
+          
+          <button className="btn btn-primary" onClick={()=>{navigate('/Addpractice',{state:reciveDataCheck})}}>
             ADD new Practice
           </button>
-          </Link>
+          {reciveDataCheck.patientId &&
+          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>{navigate('/AddNewAppointment',{state:reciveDataCheck})}}>
+          ADD to Appointment
+          </button>
+          }
         </div>
        
     </div>
