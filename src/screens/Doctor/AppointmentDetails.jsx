@@ -20,10 +20,10 @@ const AppointmentDetails = () => {
     let receivedData = location.state;
     console.log(receivedData)
     setRecvData(receivedData)
-    setParientAppData(receivedData.item)
-    setAddAppointScreenData({nextAppointDate:receivedData.item.nextAppointDate,patientId:receivedData.item.patientId,userId:receivedData.userId})
-    FeactData(receivedData.item.id,receivedData.item.patientId)
-    AllAppointmentDates(receivedData.item.patientId)
+    setParientAppData(receivedData)
+    setAddAppointScreenData({nextAppointDate:receivedData.nextAppointDate,patientId:receivedData.patientId,userId:receivedData.userId})
+    FeactData(receivedData.id,receivedData.patientId)
+    AllAppointmentDates(receivedData.patientId)
   
   },[])
   const AllAppointmentDates=async(pId)=>{
@@ -66,15 +66,19 @@ const AppointmentDetails = () => {
           </div>
         </div>}
         <div className="input-group mb-4 mt-5 text-center">
-        <select className="form-select" value={date} onChange={(e)=>{FeactData(e.target.value,patientAppData.patientId)}}>
-       
-          {allAppointDates.map((e)=>{
-            const onlydate =new Date(e.appointmentDate).toDateString();
-            return(
-            <option key={e.id} value={e.id}>{onlydate}</option>
-          )})} 
-        </select>
-      </div>
+          <select className="form-select" value={recvData.id} onChange={(e) => {
+            FeactData(e.target.value, patientAppData.patientId);
+            setRecvData({ ...recvData, id: e.target.value }); // Update state correctly
+          }}>
+            {allAppointDates.map((e) => {
+              const onlydate = new Date(e.appointmentDate).toDateString();
+              return (
+                <option key={e.id} value={e.id}>{onlydate}</option>
+              );
+            })}
+          </select>
+        </div>
+
     
     <div className=''>
     {alphabets.length > 0 &&  
@@ -112,7 +116,7 @@ const AppointmentDetails = () => {
   }
       <div className="row justify-content-end mt-3">
         <div className="col-auto">
-          <button className="btn btn-success" onClick={()=>navigate('/TestDetail',{state:testData})}>Test Detail</button>
+          <button className="btn btn-success" onClick={()=>navigate('/TestDetail',{state:{testData,recvData}})}>Test Detail</button>
         </div>
       </div>
     </div>

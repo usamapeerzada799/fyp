@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import GlobalVariables from '../screens/Doctor/Globel'
+import { useDataContext } from './DataContext.jsx';
+
 const Login = () => {
   const [username,setUsername]=useState('')
   const [password,setPassword]=useState('')
-  
+  const { sharedData, setSharedData } = useDataContext();
   const navigate = useNavigate();
   const login = async()=>
     {
@@ -20,11 +22,17 @@ const Login = () => {
           alert('Invalid username or password');
         }else{
           
-          if(data.type=="doctor")
+          if(data.type=="doctor"){
           navigate('/Appointment', { state: data })
-         else
+          setSharedData(data);
+          }
+         else if(data.type=="Caregiver")
           navigate('/CaregiverMain', { state: data })
+         else
+         navigate('/PatientMain', { state: data })
         }
+       
+
        }catch(e){
         console.log("user")
        }
@@ -36,7 +44,7 @@ const Login = () => {
     
     >
        <div className="text-white text-center fs-1" style={{ borderBottomRightRadius: '90%', height: 120, width: '100%', backgroundColor: "#003cb3" }}>
-        <div className=" p-5">SignUp</div>
+        <div className=" p-5">Login</div>
       </div>
       <div className="container-fluid h-100 d-flex justify-content-center align-items-center mt-1">
         <div className="col-md-6 rounded">

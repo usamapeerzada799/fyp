@@ -86,7 +86,7 @@ const Appointment = () => {
 
              return (
               <div key={index} className="d-grid">
-                <button className="btn-lg btn btn-outline-info" onClick={()=>{ navigate('/AppointmentDetails', { state:{ item,userId: doctor.uid }})}}>
+                <button className="btn-lg btn btn-outline-info" onClick={()=>{ navigate('/AppointmentDetails', { state:{ ...item,userId: doctor.uid }})}}>
                 <div className="row align-items-center m-1 text-light " style={{ backgroundColor: '#0DB495', borderRadius: '10px' }}>
                   <div className="col-4">
                     <img className="img-fluid rounded-circle" style={{ width: '100px', height: '85px' }} src={GlobalVariables.apiUrl+item.profPicPath} alt="" />

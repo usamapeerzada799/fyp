@@ -1,14 +1,17 @@
 import { useEffect,useState } from 'react';
-import {useLocation} from 'react-router-dom'
+import {useNavigate,useLocation} from 'react-router-dom'
 const TestDetail = () => {
   const [alphabets,setAlphabets]=useState([]);
   const [words ,setWords]=useState([])
   const [sentences,setSentences]=useState([]);
   const [TestDetail,setTestDetail]=useState([]);
+  const navigate = useNavigate();
   const location = useLocation();
-
+  const [reciveDataCheck, setReciveDataCheck] = useState({})
   useEffect(()=>{
-    const receivedData = location.state;
+    let receivedData = location.state.testData;
+    
+    console.log(receivedData)
     const word=receivedData.filter(item=> item.type==='w')
     setWords(word);
     
@@ -17,6 +20,9 @@ const TestDetail = () => {
 
     const senten=receivedData.filter(item=> item.type==='s')
     setSentences(senten);
+    receivedData=location.state.recvData;
+    console.log(receivedData)
+    setReciveDataCheck(receivedData)
   },[])
   
   return (
@@ -42,6 +48,11 @@ const TestDetail = () => {
         {sentences.map((e,index)=>{return (<div key={index} className='d-inline p-2 '>{e.eText}</div>)})}
         </div>
       </div>}
+      <div className="row justify-content-center">
+        <div className="col-auto mb-3 mt-3">
+          <button className="btn btn-primary btn-lg" onClick={()=>{navigate('/AppointmentDetails',{state:reciveDataCheck})}}>Add New Appointment</button>
+        </div>
+      </div>
     </div>
     </div>
   )

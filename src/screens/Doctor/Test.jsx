@@ -9,11 +9,15 @@ const Test = () => {
   const [singleTesttData,setSingleTestData]=useState([{eText:""}]);
   const [data,setData]=useState([]);
   const [testTitle,SetTestTitle]=useState([]);
+  const[AppointmentTests,setAppointmentTests]=useState([]);
   useEffect(()=>{
     receivedData = location.state;
     console.log(receivedData)
     setReciveDataCheck(receivedData);
-   
+   if(receivedData?.reciveDataCheck){
+    receivedData=receivedData.reciveDataCheck;
+    console.log(receivedData)
+   }
     const fetchData=async()=>{
       try{
         const responce=await fetch(GlobalVariables.apiUrl+`/api/Test/userDefindTest?Uid=${receivedData.userId}`)
@@ -37,8 +41,8 @@ const Test = () => {
     fetchData()
   },[])
   useEffect(()=>{
-    console.log(reciveDataCheck)
-  },[testTitle,reciveDataCheck]);
+    console.log(reciveDataCheck);console.log(AppointmentTests)
+  },[testTitle,reciveDataCheck,AppointmentTests]);
 
   const singleTestData=(e,ind)=>{
     
@@ -80,6 +84,21 @@ const Test = () => {
     }
     return array;
   }
+  const handleCheckboxChange = (e, index,testId) => {
+    const { checked } = e.target;
+
+    setAppointmentTests(prevState => {
+      if (checked) {
+        // If checked, update pracId for the given index
+        const updatedState = [...prevState];
+        updatedState[index] = { ...updatedState[index], testId: testId }; // Assuming e.pracId is the pracId to add
+        return updatedState;
+      } else {
+        // If unchecked, remove the object at the given index
+        return prevState.filter((item, i) => i !== index);
+      }
+    });
+  };
   return (
     <div className="container">
         <span className="fs-3 d-block text-center fw-bold">
@@ -91,16 +110,13 @@ const Test = () => {
           <div key={index}>
           <div className="row align-items-center m-1 text-light" style={{ backgroundColor: '#0DB495', borderRadius: '10px'}}>
             <div className="col">
-              {reciveDataCheck.patientId &&   
+              {(reciveDataCheck?.patientId || reciveDataCheck?.reciveDataCheck?.patientId) &&   
                 <div className="col-1">
                   <input
                 type="checkbox"
                 className="form-check-input"
                  // Check if item is checked
-                 onChange={() =>{ 
-                  setReciveDataCheck({...reciveDataCheck,testId:e.testId});
-                 console.log(reciveDataCheck)
-                }}
+                 onChange={(a) => handleCheckboxChange(a,index, e.testId)}
               />
                 </div >
                 
@@ -152,11 +168,11 @@ const Test = () => {
       )})}
         <div className="BtnAddpractic">
           
-          <button className="btn btn-primary" onClick={()=>{navigate('/Addpractice',{state:reciveDataCheck})}}>
-            ADD new Practice
+          <button className="btn btn-primary" onClick={()=>{navigate('/CreateTest',{state:reciveDataCheck})}}>
+            ADD new Test
           </button>
-          {reciveDataCheck.patientId &&
-          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>{navigate('/AddNewAppointment',{state:reciveDataCheck})}}>
+          {(reciveDataCheck?.patientId || reciveDataCheck?.reciveDataCheck?.patientId) &&
+          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>{navigate('/AddNewAppointment',{state:{reciveDataCheck,AppointmentTests}})}}>
           ADD to Appointment
           </button>
           }

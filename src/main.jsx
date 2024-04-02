@@ -11,6 +11,13 @@ import CaregiverMain from './screens/Caregiver/CaregiverMain.jsx';
 import ClinicalDetails from './screens/Caregiver/ClinicalDetails.jsx';
 import Signup from './screens/Signup.jsx';
 import NextVisit from './screens/Caregiver/NextVisit.jsx';
+import SideBar from './screens/SideBar.jsx';
+import ShowAllPatients from './screens/Doctor/ShowAllPatients.jsx';
+import AllAppointsments from './screens/Doctor/AllAppointsments.jsx';
+import PatientMain from './screens/Patient/PatientMain.jsx';
+import PatientPractice from './screens/Patient/PatientPractice.jsx';
+import PatientTest from './screens/Patient/PatientTest.jsx';
+import { useDataContext,DataContextProvider } from './screens/DataContext.jsx';
 import './index.css'
 import {
   createBrowserRouter,
@@ -24,37 +31,73 @@ import Practice from './screens/Doctor/Practice.jsx'
 import AddPractic from './screens/Doctor/AddPractic.jsx';
 import Experiment from './screens/Exparimet.jsx';
 
+function Layout() {
+  const { sharedData } = useDataContext();
+  return (
+    <div style={{ display: 'flex' }}>
+    <SideBar sharedData={sharedData} />
+    <div style={{ flex: 1 }}>
+     
+        <Outlet />
+     
+    </div>
+  </div>
+  );
+}
+
 const router = createBrowserRouter(
   [  {
-   path: "/",
+   
    element: (
-     
-       <div />
-    
-   ),
+    <DataContextProvider>
+      <Layout />
+    </DataContextProvider>
+  ),
    children: [
-     {
-       path: "/",
-       element: <div />,
-     },
+    {
+      path:'/Appointment',
+      element:<Appointment/>
+    },
      {
        path: "/profile/:id",
        element: <div />,
      },
+     {
+      path:'/Login',
+      element:<Login/>
+    },
+    {
+      path:'/PatientTest',
+      element:<PatientTest/>
+    },
+    {
+      path:'/ShowAllPatients',
+      element:<ShowAllPatients/>
+    },
+    {
+      path:'/AllAppointsments',
+      element:<AllAppointsments/>
+    },
    ],
+   
  },
    {
      path:'/Practice',
      element:<Practice/>
    },
    {
+    path:'/PatientPractice',
+    element:<PatientPractice/>
+  },
+   {
+    path:'/PatientMain',
+    element:<PatientMain/>
+  },
+   {
      path:'/AddPractice',
      element:<AddPractic/>
    },
-   {
-    path:'/Login',
-    element:<Login/>
-  },
+   
   {
     path:'/Appointment',
     element:<Appointment/>

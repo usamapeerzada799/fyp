@@ -1,12 +1,18 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-
+import {useLocation,useNavigate} from 'react-router-dom'
 import VisitHistory from '../../images/VisitHistory.jpg'
 import NextVisit from '../../images/NextVisit.png'
 import Practice from '../../images/practice.jpg';
 import Test from '../../images/Test.png';
 const ClinicalDetails = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(()=>{
+    const receivedData = location.state;
+  },[])
   return (
     <div>
         <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:180,width:'100%',backgroundColor:"#AB91D9",}}>

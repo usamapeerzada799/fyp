@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import GlobalVariables from "./Globel";
 import Modal from "react-modal";
-
+import {useLocation,useNavigate} from 'react-router-dom'
 const CreateTest = () => {
     const [selectedOption, setSelectedOption] = useState('a');
     const [selectStage, setSelectStage] = useState('select stage');
@@ -14,12 +14,16 @@ const CreateTest = () => {
     const [model2,setModel2]=useState(false)
     const [testCollectionData,setTestCollectionData]=useState([])
     const [checkedItems, setCheckedItems] = useState({});
-    
+    const [reciveDataCheck,setReciveDataCheck]=useState({})
     Modal.setAppElement('#root'); 
-    
+    const navigate = useNavigate();
+    const location = useLocation();
+    let receivedData=''  
   useEffect(()=>{console.log(testData)},[testData,testCollectionData])
     useEffect(() => {
-        
+      receivedData = location.state;
+      console.log(receivedData)
+      setReciveDataCheck(receivedData);
         const fetchDAta = async () => {
           try {
             const responce = await fetch(GlobalVariables.apiUrl + "/api/Collection/GetAllCollection");
@@ -97,31 +101,37 @@ const CreateTest = () => {
           }
         }
       }
-      const AddTest=async()=>{
-        console.log("clikcked")
-        try{
-          const CollectData=testData.map((e)=>{
-            return {collectid:e[0].collectid,op1:e[1].collectid,op2:e[2].collectid,op3:e[3].collectid,questionTitle:e.testquestion}
-          })
-          const tst={createBy:2,stage:selectStage,title:title}
-          const sendTestData={test:tst,collectionsIds:CollectData}
-          
-          const responce = await fetch(GlobalVariables.apiUrl + "/api/Test/AddNewTest",
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-
-            },
-            body: JSON.stringify(sendTestData),
-          }
-
-        );
-        const res = await responce.json();
-        console.log(res)
-        }catch(err){console.log(err)}
-       
-      }
+      const AddTest = async () => {
+        console.log("clicked");
+        try {
+            const CollectData = testData.map((e) => {
+                return {
+                    collectid: e[0].collectid,
+                    op1: e[1].collectid,
+                    op2: e[2].collectid,
+                    op3: e[3].collectid,
+                    questionTitle: e.testquestion
+                };
+            });
+    
+            const tst = { createBy: reciveDataCheck.userId, stage: selectStage, title: title };
+            const sendTestData = { test: tst, collectionsIds: CollectData };
+    
+            const response = await fetch(GlobalVariables.apiUrl + "/api/Test/AddNewTest", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(sendTestData),
+            });
+    
+            const res = await response.json();
+            console.log(res);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    
       const customStyles = {
         content: {
           top: "50%",
@@ -256,7 +266,7 @@ const CreateTest = () => {
                 <div className="col-md-6">
                   <div className="card">
                     <div className="card-body">
-                      <h5 className="card-title">{e.testQuestonTitle}</h5>
+                      <h5 className="card-title">{e.testquestion}</h5>
                       <span className="card-text mx-2">{e[0].eText}</span>
                       <span className="card-text mx-2">{e[1].eText}</span>
                       <span className="card-text mx-2">{e[2].eText}</span>
@@ -271,10 +281,12 @@ const CreateTest = () => {
          
         )
       })}
-     
-      <button className="btn btn-success mt-3"
-        onClick={AddTest}>ok</button>
-      
+     <div className='d-grid col-6 mx-auto m-3'>
+      <button className="btn btn-success  mt-3"
+        onClick={AddTest}>Add Test</button>
+         <button className="btn btn-success  mt-3"
+        onClick={()=>{navigate('/Test',{state:reciveDataCheck})}}>Go to Test</button>
+      </div>
     </div>
     
   )

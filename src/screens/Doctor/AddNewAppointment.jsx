@@ -37,8 +37,17 @@ const AddNewAppointment = () => {
     try{
       
       if(reciveDataCheck?.testId && reciveDataCheck?.pracId){
-        const appointData= {...reciveDataCheck,nextAppointDate:nextAppDate,appointmentDate:reciveDataCheck.nextAppointDate,feedback:"null"};
-        console.log(appointData)
+        let appointData={};
+        if(reciveDataCheck?.reciveDataCheck)
+        {
+          appointData= {...reciveDataCheck.reciveDataCheck,nextAppointDate:nextAppDate,appointmentDate:reciveDataCheck.reciveDataCheck.nextAppointDate,feedback:"null"};
+          console.log(appointData)
+        }else{
+          appointData= {...reciveDataCheck,nextAppointDate:nextAppDate,appointmentDate:reciveDataCheck.nextAppointDate,feedback:"null"};
+          console.log(appointData)
+        }
+        
+        
         const responce = await fetch(GlobalVariables.apiUrl + "/api/User/AddAppointment",
         {
           method: 'POST',

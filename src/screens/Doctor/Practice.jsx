@@ -12,7 +12,7 @@ const Practice = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [reciveDataCheck,setReciveDataCheck]=useState({});
-  const [practicId,setPracticId]=useState()
+  const [AppointmentPractics,setAppointmentPractics]=useState([])
   let receivedData=''
 
  
@@ -26,6 +26,10 @@ const Practice = () => {
         receivedData = location.state;
         console.log(receivedData)
         setReciveDataCheck(receivedData)
+        if(receivedData?.reciveDataCheck){
+          receivedData=receivedData.reciveDataCheck;
+          console.log(receivedData)
+         }
         const responce = await fetch(GlobalVariables.apiUrl+`/api/Practice/userDefindPractices?Uid=${receivedData.userId}`);
         const data=await responce.json();
         console.log(data);
@@ -52,7 +56,8 @@ const Practice = () => {
  
   useEffect(()=>{
     console.log(reciveDataCheck)
-  },[pracTitle,reciveDataCheck]);
+    console.log(AppointmentPractics)
+  },[pracTitle,reciveDataCheck,AppointmentPractics]);
    const singlePracData=(e,ind)=>{
     
     if(e.toggle){ 
@@ -88,40 +93,53 @@ const Practice = () => {
       setToglersign('>')
     }
    }
+   const handleCheckboxChange = (e, index,pracId) => {
+    const { checked } = e.target;
+
+    setAppointmentPractics(prevState => {
+      if (checked) {
+        // If checked, update pracId for the given index
+        const updatedState = [...prevState];
+        updatedState[index] = { ...updatedState[index], pracId: pracId }; // Assuming e.pracId is the pracId to add
+        return updatedState;
+      } else {
+        // If unchecked, remove the object at the given index
+        return prevState.filter((item, i) => i !== index);
+      }
+    });
+  };
+
   return (
     <div className="container">
         <span className="fs-3 d-block text-center fw-bold">
           Practice
         </span>
         
-        {pracTitle.map((e,index)=>{
+        {pracTitle.map((a,index)=>{
         return(
           <div key={index}>
           <div className="row align-items-center m-1 text-light" style={{ backgroundColor: '#0DB495', borderRadius: '10px'}}>
             <div className="col">
-              {reciveDataCheck.patientId &&   
+              {(reciveDataCheck?.patientId || reciveDataCheck?.reciveDataCheck?.patientId) &&   
                 <div className="col-1">
                   <input
                 type="checkbox"
                 className="form-check-input"
                  // Check if item is checked
-                 onChange={() =>{ 
-                  setReciveDataCheck({...reciveDataCheck,pracId:e.pracId});
-                 console.log(reciveDataCheck)
-                }}
+                 onChange={(e) => handleCheckboxChange(e,index, a.pracId)}
               />
                 </div >
                 
                 }
-              <h3 >{e.title}</h3>
+              <h3 >{a.title}</h3>
               <hr/>
             </div>
             <div className="col-auto">
-              <button className="btn btn-light" onClick={() => singlePracData(e, index)}>{e.togleSign}</button>
+              <button className="btn btn-light" onClick={() => singlePracData(a, index)}>{a.togleSign}</button>
             </div>
           </div>
 
-            {singlePracticData && singlePracticData.some(item => item.title === e.title) && (
+            {singlePracticData && singlePracticData.some(item => item.title === a.title) && (
              <div className="container">
              <div className="row">
                {singlePracticData.map((item,index) => (
@@ -147,8 +165,8 @@ const Practice = () => {
           <button className="btn btn-primary" onClick={()=>{navigate('/Addpractice',{state:reciveDataCheck})}}>
             ADD new Practice
           </button>
-          {reciveDataCheck.patientId &&
-          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>{navigate('/AddNewAppointment',{state:reciveDataCheck})}}>
+          {(reciveDataCheck?.patientId || reciveDataCheck?.reciveDataCheck?.patientId) &&
+          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>{navigate('/AddNewAppointment',{state:{reciveDataCheck,AppointmentPractics}})}}>
           ADD to Appointment
           </button>
           }

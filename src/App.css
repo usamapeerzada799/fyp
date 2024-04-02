@@ -1,0 +1,11 @@
+.modal-overlay {
+    background-color: #00000080;
+    z-index: 1000;
+  }
+  
+  .modal {
+    opacity: 0.3;
+    transition: opacity 1s ease-in-out;
+    
+    background-color: white;
+  }
