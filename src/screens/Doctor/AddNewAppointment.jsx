@@ -3,6 +3,8 @@ import Datetime, { contextType } from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
 import {useLocation,useNavigate} from 'react-router-dom'
 import GlobalVariables from './Globel';
+import { useSelector } from 'react-redux';
+import Practice from './Practice';
 const AddNewAppointment = () => {
   const [date,setDate]=useState(new Date())
   const [addAppoinmentData,setAddAppointmentData]=useState({})
@@ -11,6 +13,7 @@ const AddNewAppointment = () => {
   const navigate = useNavigate();
   const location = useLocation();
   let receivedData={}
+  let objects = useSelector(state => state);
   useEffect(()=>{
     console.log('Add New Appoint')
     if (location.state){
@@ -35,18 +38,17 @@ const AddNewAppointment = () => {
   };
   const addAppointment=async()=>{
     try{
+
+      const paractic=objects?.objects1[0]?.AppointmentPractics;
+      const test=objects?.objects2[0]?.AppointmentTests;
+      console.log(paractic,test)
+       if(paractic || test){
+         let appointData={};
       
-      if(reciveDataCheck?.testId && reciveDataCheck?.pracId){
-        let appointData={};
-        if(reciveDataCheck?.reciveDataCheck)
-        {
-          appointData= {...reciveDataCheck.reciveDataCheck,nextAppointDate:nextAppDate,appointmentDate:reciveDataCheck.reciveDataCheck.nextAppointDate,feedback:"null"};
-          console.log(appointData)
-        }else{
-          appointData= {...reciveDataCheck,nextAppointDate:nextAppDate,appointmentDate:reciveDataCheck.nextAppointDate,feedback:"null"};
-          console.log(appointData)
-        }
-        
+           appointData= {Appointment:{...reciveDataCheck,nextAppointDate:nextAppDate,appointmentDate:reciveDataCheck.nextAppointDate,feedback:"null"},AppointmentPractics:paractic,AppointmentTests:test};
+           console.log(appointData)
+      
+       
         
         const responce = await fetch(GlobalVariables.apiUrl + "/api/User/AddAppointment",
         {
@@ -59,13 +61,14 @@ const AddNewAppointment = () => {
         }
 
       );
-        const data=responce.json();
+        const data=await responce.json();
         console.log(data)
         
       }
       else{
         console.log("do data")
       }
+    
     }catch(e){console.log(e)}
   }
 

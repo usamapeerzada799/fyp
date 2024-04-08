@@ -1,6 +1,7 @@
 import { useEffect,useState } from 'react';
 import {useLocation,useNavigate} from 'react-router-dom'
 import GlobalVariables from './Globel';
+import Store from '../Store';
 const Test = () => {
   const navigate = useNavigate();
   const location = useLocation();  
@@ -84,21 +85,45 @@ const Test = () => {
     }
     return array;
   }
-  const handleCheckboxChange = (e, index,testId) => {
+  const handleCheckboxChange = (e, testId) => {
     const { checked } = e.target;
 
     setAppointmentTests(prevState => {
+      const index = prevState.findIndex(item => item.testId === testId);
+
       if (checked) {
-        // If checked, update pracId for the given index
+        // If checked, insert the object next to the current index
         const updatedState = [...prevState];
-        updatedState[index] = { ...updatedState[index], testId: testId }; // Assuming e.pracId is the pracId to add
+        updatedState.splice(index + 1, 0, { testId });
         return updatedState;
       } else {
-        // If unchecked, remove the object at the given index
-        return prevState.filter((item, i) => i !== index);
+        // If unchecked, remove the object with matching pracId
+        return prevState.filter(item => item.testId !== testId);
       }
     });
+    //   if (checked) {
+    //     // If checked, update pracId for the given index
+    //     const updatedState = [...prevState];
+    //     updatedState[index] = { ...updatedState[index], testId: testId }; // Assuming e.pracId is the pracId to add
+    //     return updatedState;
+    //   } else {
+    //     // If unchecked, remove the object at the given index
+    //     return prevState.filter((item, i) => i !== index);
+    //   }
+    // });
   };
+  const submitHandler=()=>{
+    try{
+    Store.dispatch({
+      type: 'ADD_OBJECT',
+      payload: {
+        collectionName: 'objects2',
+        object: {AppointmentTests}
+      }
+    });
+    navigate('/AddNewAppointment',{state:reciveDataCheck})
+   }catch(e){console.log(e)}
+  }
   return (
     <div className="container">
         <span className="fs-3 d-block text-center fw-bold">
@@ -110,13 +135,13 @@ const Test = () => {
           <div key={index}>
           <div className="row align-items-center m-1 text-light" style={{ backgroundColor: '#0DB495', borderRadius: '10px'}}>
             <div className="col">
-              {(reciveDataCheck?.patientId || reciveDataCheck?.reciveDataCheck?.patientId) &&   
+              {(reciveDataCheck?.patientId ) &&   
                 <div className="col-1">
                   <input
                 type="checkbox"
                 className="form-check-input"
                  // Check if item is checked
-                 onChange={(a) => handleCheckboxChange(a,index, e.testId)}
+                 onChange={(a) => handleCheckboxChange(a, e.testId)}
               />
                 </div >
                 
@@ -171,8 +196,8 @@ const Test = () => {
           <button className="btn btn-primary" onClick={()=>{navigate('/CreateTest',{state:reciveDataCheck})}}>
             ADD new Test
           </button>
-          {(reciveDataCheck?.patientId || reciveDataCheck?.reciveDataCheck?.patientId) &&
-          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>{navigate('/AddNewAppointment',{state:{reciveDataCheck,AppointmentTests}})}}>
+          {(reciveDataCheck?.patientId ) &&
+          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>submitHandler()}>
           ADD to Appointment
           </button>
           }

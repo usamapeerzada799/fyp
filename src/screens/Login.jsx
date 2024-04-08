@@ -8,7 +8,7 @@ import { useDataContext } from './DataContext.jsx';
 const Login = () => {
   const [username,setUsername]=useState('')
   const [password,setPassword]=useState('')
-  const { sharedData, setSharedData } = useDataContext();
+  //const { sharedData, setSharedData } = useDataContext();
   const navigate = useNavigate();
   const login = async()=>
     {
