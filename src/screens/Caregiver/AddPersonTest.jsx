@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import GlobalVariables from "./Globel";
+import GlobalVariables from "../Doctor/Globel";
 import Modal from "react-modal";
 import {useLocation,useNavigate} from 'react-router-dom'
-const CreateTest = () => {
+const AddPersonTest = () => {
     const [selectedOption, setSelectedOption] = useState('a');
     const [selectStage, setSelectStage] = useState('select stage');
     const [title, setTitle] = useState('')
@@ -19,23 +19,23 @@ const CreateTest = () => {
     const navigate = useNavigate();
     const location = useLocation();
     let receivedData=''  
-  useEffect(()=>{console.log(testData)},[testData,testCollectionData])
+  useEffect(()=>{console.log(testData);},[testData,testCollectionData])
     useEffect(() => {
       receivedData = location.state;
       console.log(receivedData)
       setReciveDataCheck(receivedData);
         const fetchDAta = async () => {
           try {
-            const responce = await fetch(GlobalVariables.apiUrl + "/api/Collection/GetAllCollection");
+            const responce = await fetch(GlobalVariables.apiUrl + `/api/Person/GetPersons?cid=${receivedData.userId}`);
             const data = await responce.json();
             console.log(data);
             setData(data);
             const groupedItems = data.reduce((groups, item) => {
-              const { C_group } = item;
-              if (!groups[C_group]) {
-                groups[C_group] = [];
+              const { relation } = item;
+              if (!groups[relation]) {
+                groups[relation] = [];
               }
-              groups[C_group].push(item);
+              groups[relation].push(item);
               return groups;
             }, {});
             console.log(groupedItems)
@@ -97,18 +97,18 @@ const CreateTest = () => {
           if(testData.length>0){
             const CollectData = testData.map((e) => {
                 return {
-                    collectid: e[0].collectid,
+                    personId: e[0].collectid,
                     op1: e[1].collectid,
                     op2: e[2].collectid,
                     op3: e[3].collectid,
-                    questionTitle: e.testquestion
+                    
                 };
             });
             
-            const tst = { createBy: reciveDataCheck.userId, stage: selectStage, title: title };
-            const sendTestData = { test: tst, collectionsIds: CollectData };
+            const tst = { createBy: reciveDataCheck.userId, patientId:reciveDataCheck.pid, title: title };
+            const sendTestData = { Test: tst, Persons: CollectData };
     
-            const response = await fetch(GlobalVariables.apiUrl + "/api/Test/AddNewTest", {
+            const response = await fetch(GlobalVariables.apiUrl + "/api/Person/AddPersonTest", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -143,7 +143,7 @@ const CreateTest = () => {
     
     <div>
       <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:150,width:'100%',backgroundColor:"#AB91D9",}}>
-        <div className=" p-5">Create Test</div>
+        <div className=" p-5">Create Person Test</div>
       </div>
       <div className="row mt-3">
         <div className="col-md-4">
@@ -151,24 +151,8 @@ const CreateTest = () => {
             <input type="text" className="form-control" placeholder="Enter Test Title" onChange={(e) => setTitle(e.target.value)} />
           </div>
         </div>
-        <div className="col-md-4">
-          <div className="input-group mb-3">
-            <select className="form-select" value={selectStage} onChange={(e) => setSelectStage(e.target.value)}>
-              <option value="select stage">Select Stage</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-            </select>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="input-group mb-3">    
-            <select className="form-select" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-              <option value="a">Alphabets</option>
-              <option value="w">Words</option>
-              <option value="s">Sentences</option>
-            </select>
-          </div>
-        </div>
+        
+        
       </div>
       <div className="d-flex justify-content-end">
         <button className="btn btn-success "
@@ -198,13 +182,13 @@ const CreateTest = () => {
           </div>
         </div>
       {Object.entries(collectionData)
-      .filter(([group, items]) => items.some(item => item.type === selectedOption))
+      
       .map(([group, items]) => (
         <div key={group}>
           <h2>{group}</h2>
           <div className="row">
             {items.map((item, index) => {
-              if (item.type === selectedOption) {
+             
                 return (
                   <div key={index} className="col-md-3 col-4">
                     <div className="card mb-3 col-md-4 AddPrac" >
@@ -215,12 +199,12 @@ const CreateTest = () => {
                             type="checkbox"
                             className="form-check-input"
                              checked={checkedItems[item.id] || false} // Check if item is checked
-                             onChange={(e) => handleCheckboxChange(e, item.id,item.eText)}
+                             onChange={(e) => handleCheckboxChange(e, item.id,item.name)}
                           />
                         </div>
 
                         <div className="col-11">
-                          <h5 className="card-title">{item.eText}</h5>
+                          <h5 className="card-title">{item.name}</h5>
                         </div>
 
                       </div>
@@ -228,9 +212,7 @@ const CreateTest = () => {
                     </div>
                   </div>
                 );
-              } else {
-                return null;
-              }
+              
             })}
           </div>
         </div>
@@ -278,12 +260,12 @@ const CreateTest = () => {
       })}
      <div className='d-grid col-6 mx-auto m-3'>
       <button className="btn btn-success  mt-3"
-        onClick={AddTest} style={{marginLeft:'0.5rem', backgroundColor: '#DBBDE7', borderRadius: '10px'}}>Add Test</button>
+        onClick={AddTest}>Add Test</button>
          <button className="btn btn-success  mt-3"
-        onClick={()=>{navigate('/Test',{state:reciveDataCheck})}} style={{marginLeft:'0.5rem', backgroundColor: '#DBBDE7', borderRadius: '10px'}}>Go to Test</button>
+        onClick={()=>{navigate('/PersonTest',{state:reciveDataCheck})}}>Go to Test</button>
       </div>
     </div>
     
   )
 }
-export default CreateTest
+export default AddPersonTest

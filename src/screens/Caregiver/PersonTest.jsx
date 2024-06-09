@@ -1,16 +1,16 @@
 import { useEffect,useState } from 'react';
 import {useLocation,useNavigate} from 'react-router-dom'
-import GlobalVariables from './Globel';
+import GlobalVariables from '../Doctor/Globel';
 import Store from '../Store';
-const Test = () => {
+const PersonTest = () => {
   const navigate = useNavigate();
   const location = useLocation();  
   let receivedData=''
   const [reciveDataCheck,setReciveDataCheck]=useState({});
-  const [singleTesttData,setSingleTestData]=useState([{eText:""}]);
+  const [singleTesttData,setSingleTestData]=useState([{EText:""}]);
   const [data,setData]=useState([]);
   const [testTitle,SetTestTitle]=useState([]);
-  const[AppointmentTests,setAppointmentTests]=useState([]);
+  const[AppointmentPersonTests,setAppointmentPersonTests]=useState([]);
   useEffect(()=>{
     receivedData = location.state;
     console.log(receivedData)
@@ -21,8 +21,8 @@ const Test = () => {
    }
     const fetchData=async()=>{
       try{
-        let patientId = receivedData?.patientId ? receivedData.patientId : 0;
-        const responce=await fetch(GlobalVariables.apiUrl+`/api/Test/userDefindTest?Uid=${receivedData.userId}&pid=${patientId}`)
+        let patientId = receivedData.patientId ? receivedData.patientId : 0;
+        const responce=await fetch(GlobalVariables.apiUrl+`/api/Person/GetPersonTest?Uid=${receivedData.userId}`)
         const data=await responce.json();
         console.log(data);
         console.log(data);
@@ -43,8 +43,8 @@ const Test = () => {
     fetchData()
   },[])
   useEffect(()=>{
-    console.log(reciveDataCheck);console.log(AppointmentTests)
-  },[testTitle,reciveDataCheck,AppointmentTests]);
+    console.log(reciveDataCheck);console.log(AppointmentPersonTests)
+  },[testTitle,reciveDataCheck,AppointmentPersonTests]);
 
   const singleTestData=(e,ind)=>{
     
@@ -86,20 +86,20 @@ const Test = () => {
     }
     return array;
   }
-  const handleCheckboxChange = (e, testId) => {
+  const handleCheckboxChange = (e, personTestId) => {
     const { checked } = e.target;
 
-    setAppointmentTests(prevState => {
-      const index = prevState.findIndex(item => item.testId === testId);
+    setAppointmentPersonTests(prevState => {
+      const index = prevState.findIndex(item => item.personTestId === personTestId);
 
       if (checked) {
         // If checked, insert the object next to the current index
         const updatedState = [...prevState];
-        updatedState.splice(index + 1, 0, { testId });
+        updatedState.splice(index + 1, 0, { personTestId });
         return updatedState;
       } else {
         // If unchecked, remove the object with matching pracId
-        return prevState.filter(item => item.testId !== testId);
+        return prevState.filter(item => item.personTestId !== personTestId);
       }
     });
     //   if (checked) {
@@ -118,8 +118,8 @@ const Test = () => {
     Store.dispatch({
       type: 'ADD_OBJECT',
       payload: {
-        collectionName: 'objects2',
-        object: {AppointmentTests}
+        collectionName: 'objects4',
+        object: {AppointmentPersonTests}
       }
     });
     navigate('/AddNewAppointment',{state:reciveDataCheck})
@@ -134,7 +134,7 @@ const Test = () => {
         {testTitle.map((e,index)=>{
         return(
           <div key={index}>
-          <div className="row align-items-center m-1 text-black" style={{ backgroundColor: '#DBBDE7', borderRadius: '10px'}}>
+          <div className="row align-items-center m-1 text-light" style={{ backgroundColor: '#0DB495', borderRadius: '10px'}}>
             <div className="col">
               {(reciveDataCheck?.patientId ) &&   
                 <div className="col-1">
@@ -147,7 +147,7 @@ const Test = () => {
                 </div >
                 
                 }
-              <h3 className={`${e.flag ?'text-success' : 'text-black' } d-inline p-2 fs-5`}>{e.Title}</h3>
+              <h3 className={`${e.flag ?'text-success' : 'text-light' } d-inline p-2 fs-5`}>{e.Title}</h3>
               <hr/>
             </div>
             <div className="col-auto">
@@ -194,11 +194,11 @@ const Test = () => {
       )})}
         <div className="BtnAddpractic">
           
-          <button className="btn btn-primary text-black" onClick={()=>{navigate('/CreateTest',{state:reciveDataCheck})}} style={{ backgroundColor: '#DBBDE7', borderRadius: '10px'}}>
+          <button className="btn btn-primary" onClick={()=>{navigate('/AddPersonTest',{state:reciveDataCheck})}}>
             ADD new Test
           </button>
           {(reciveDataCheck?.patientId ) &&
-          <button className="btn btn-primary text-black"  style={{marginLeft:'0.5rem', backgroundColor: '#DBBDE7', borderRadius: '10px'}} onClick={()=>submitHandler()}>
+          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>submitHandler()}>
           ADD to Appointment
           </button>
           }
@@ -207,4 +207,4 @@ const Test = () => {
     </div>
   )
 }
-export default Test
+export default PersonTest

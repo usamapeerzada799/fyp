@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client'
-
+import PatientDetail from './screens/Caregiver/PatientDetail.jsx';
 import Login from './screens/Login.jsx'
+import Activities from './screens/Caregiver/Activities.jsx';
 import Appointment from'./screens/Doctor/Appointment.jsx';
 import AppointmentDetails from'./screens/Doctor/AppointmentDetails.jsx'; 
 import AddNewAppointment from'./screens/Doctor/AddNewAppointment.jsx';
+import PatientPersonPractice from './screens/Patient/PatientPersonPractice.jsx';
 import TestDetail from'./screens/Doctor/TestDetail.jsx';
 import Test from'./screens/Doctor/Test.jsx';
+import DoctorDashBoard from './screens/Doctor/DoctorDashBoard.jsx';
+import CameraComponent from './screens/CameraComponent.jsx';
 import CreateTest from'./screens/Doctor/CreateTest.jsx';
 import CaregiverMain from'./screens/Caregiver/CaregiverMain.jsx';
 import ClinicalDetails from './screens/Caregiver/ClinicalDetails.jsx';
@@ -18,6 +22,13 @@ import AllAppointsments from'./screens/Doctor/AllAppointsments.jsx';
 import PatientMain from'./screens/Patient/PatientMain.jsx';
 import PatientPractice from'./screens/Patient/PatientPractice.jsx';
 import PatientTest from'./screens/Patient/PatientTest.jsx';
+import VoiceAccess from './screens/VoiceAccess.jsx';
+import AddPersonPratice from './screens/Caregiver/AddPersonPratice.jsx';
+import AddPersonTest from './screens/Caregiver/AddPersonTest.jsx';
+import DoctorList from './screens/Caregiver/DoctorList.jsx'
+import PersonTest from './screens/Caregiver/PersonTest.jsx';
+import PatientPersonTest from './screens/Patient/PatientPersonTest.jsx';
+import Chart from './chart/Chart.jsx'
 import { useDataContext,DataContextProvider } from './screens/DataContext.jsx';
 import Store from './screens/Store.js';
 import './index.css'
@@ -29,10 +40,11 @@ import {
 } from "react-router-dom";
 import Practice from './screens/Doctor/Practice.jsx'
 
-
+import AddPerson from './screens/Caregiver/AddPerson.jsx';
 import AddPractic from './screens/Doctor/AddPractic.jsx';
 import Experiment from './screens/Exparimet.jsx';
 import {Provider} from 'react-redux'
+import PersonPractice from './screens/Caregiver/PersonPractice.jsx';
 function Layout() {
  // const { sharedData } = useDataContext();
   return (
@@ -69,13 +81,17 @@ const router = createBrowserRouter(
        path: "/profile/:id",
        element: <div />,
      },
-    //  {
-    //   path:'/Login',
-    //   element:<Login/>
-    // },
+     {
+      path:'/Login',
+      element:<Login/>
+    },
     {
       path:'/PatientTest',
       element:<PatientTest/>
+    },
+    {
+      path:'/PersonPractice',
+      element:<PersonPractice/>
     },
     {
       path:'/ShowAllPatients',
@@ -92,6 +108,58 @@ const router = createBrowserRouter(
      path:'/Practice',
      element:<Practice/>
    },
+   {
+    path:'/DoctorList',
+    element:<DoctorList/>
+  },
+   {
+    path:'/CameraComponent',
+    element:<CameraComponent/>
+  },
+  {
+    path:'/Chart',
+    element:<Chart/>
+  },
+  {
+    path:'/PatientPersonTest',
+    element:<PatientPersonTest/>
+  },
+  {
+    path:'/PatientPersonPractice',
+    element:<PatientPersonPractice/>
+  },
+  {
+    path:'/DoctorDashBoard',
+    element:<DoctorDashBoard/>
+  },
+   {
+    path:'/AddPersonPratice',
+    element:<AddPersonPratice/>
+  },
+  {
+    path:'/AddPersonTest',
+    element:<AddPersonTest/>
+  },
+   {
+    path:'/VoiceAccess',
+    element:<VoiceAccess/>
+  },
+  {
+    path:'/PersonTest',
+    element:<PersonTest/>
+  },
+   {
+    path:'/Activities',
+    element:<Activities/>
+  },
+  {
+    path:'/AddPerson',
+    element:<AddPerson/>
+  },
+   {
+    path:'/PatientDetail',
+    element:<PatientDetail/>
+  },
    {
     path:'/PatientPractice',
     element:<PatientPractice/>

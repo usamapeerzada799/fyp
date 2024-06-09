@@ -8,21 +8,25 @@ const TestDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [reciveDataCheck, setReciveDataCheck] = useState({})
+  
   useEffect(()=>{
     let receivedData = location.state.testData;
     
     console.log(receivedData)
-    const word=receivedData.filter(item=> item.type==='w')
-    setWords(word);
-    
-    const alpha=receivedData.filter(item=> item.type==='a')
-    setAlphabets(alpha);
+    setTestDetail(receivedData)
+    if(receivedData!=null){
+      const word=receivedData.filter(item=> item.type==='w')
+      setWords(word);
+      
+      const alpha=receivedData.filter(item=> item.type==='a')
+      setAlphabets(alpha);
 
-    const senten=receivedData.filter(item=> item.type==='s')
-    setSentences(senten);
-    receivedData=location.state.recvData;
-    console.log(receivedData)
-    setReciveDataCheck(receivedData)
+      const senten=receivedData.filter(item=> item.type==='s')
+      setSentences(senten);
+      receivedData=location.state.recvData;
+      console.log(receivedData)
+      setReciveDataCheck(receivedData)
+    }
   },[])
   
   return (
@@ -30,7 +34,15 @@ const TestDetail = () => {
        <div className="container text-center mt-5" style={{width: "70%",height:'50%'}}>
           <span className='d-block p-2   mt-5 text-warning fw-bold' style={{fontSize:38}}>Test Details</span>
         </div>
+        {console.log(reciveDataCheck)}
+        {!TestDetail && (
+          <div>
+              <h1>Not any test Assign on Particular appointmet</h1>
+          </div>
+        )}
+        {TestDetail &&
       <div className='mt-4 '>
+
     {alphabets.length > 0 &&  
       <div className='d-block p-3 mb-2 bg-danger-subtle text-black rounded'>Albhabet
         <div>
@@ -48,12 +60,13 @@ const TestDetail = () => {
         {sentences.map((e,index)=>{return (<div key={index} className='d-inline p-2 '>{e.eText}</div>)})}
         </div>
       </div>}
-      <div className="row justify-content-center">
+      
+    </div>}
+    <div className="row justify-content-center">
         <div className="col-auto mb-3 mt-3">
-          <button className="btn btn-primary btn-lg" onClick={()=>{navigate('/AppointmentDetails',{state:reciveDataCheck})}}>Add New Appointment</button>
+          <button className="btn btn-primary btn-lg" onClick={()=>{navigate('/AppointmentDetails',{state:reciveDataCheck})}}>Practice Details</button>
         </div>
       </div>
-    </div>
     </div>
   )
 }

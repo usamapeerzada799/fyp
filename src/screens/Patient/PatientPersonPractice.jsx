@@ -2,7 +2,7 @@ import {useLocation,useNavigate} from 'react-router-dom'
 import React,{ useEffect,useState } from "react";
 import GlobalVariables from '../Doctor/Globel';
 import { FaVolumeUp } from "react-icons/fa";
-const PatientPractice = () => {
+const PatientPersonPractice = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [practices,setPractices]=useState([{Path:"",description:""}]);
@@ -14,23 +14,13 @@ const PatientPractice = () => {
         const recivedata=location.state;
         console.log(recivedata.pid);
         setReciveDataCheck(recivedata);
-        const responce = await fetch(GlobalVariables.apiUrl+ `/api/Patient/AssignedPractices?Pid=${recivedata.pid}&filter=one`);
+        const responce = await fetch(GlobalVariables.apiUrl+ `/api/Person/GetAssignPersonPractice?Pid=${recivedata.pid}`);
         const data=await responce.json()
         console.log(data)
-        if(data.length>0){
-        if(data.length>1){
-          const combinedArray = [...data[0]?.Collections,...data[1]?.Collections];
-          setPractices(combinedArray);
-          console.log(combinedArray)
-          }
-          else{
-            setPractices(data[0]?.Collections);
-            console.log(data[0]?.Collections)
-          }
-        }
-        else{
-        alert("not any prectic assiged")
-        }
+       setPractices(data) 
+        
+       
+        
         } catch (error) {
           console.log(error)
         }
@@ -54,9 +44,9 @@ const playAudio = (audioUrl) => {
     <div className="container mt-5">
     <div className="row justify-content-center">
         <div className="col-md-6 text-center">
-            <img src={GlobalVariables.apiUrl + practices[currentIndex].Path} alt="Object Image"  className="img-fluid " style={{height: '250px'}}/>
-            <h1>{practices[currentIndex].Etext}</h1>
-            <button onClick={() => playAudio(GlobalVariables.apiUrl + practices[currentIndex].audioPath)} style={{ backgroundColor: 'transparent', border: 'none', outline: 'none' }}
+            <img src={GlobalVariables.apiUrl + practices[currentIndex]?.Path} alt="Object Image"  className="img-fluid " style={{height: '250px'}}/>
+            <h1>{practices[currentIndex]?.Name}</h1>
+            <button onClick={() => playAudio(GlobalVariables.apiUrl + practices[currentIndex]?.collectAudio)} style={{ backgroundColor: 'transparent', border: 'none', outline: 'none' }}
             ><FaVolumeUp style={{ height: '80px', width: '40px' }}/></button> 
         </div>
     </div>
@@ -69,4 +59,4 @@ const playAudio = (audioUrl) => {
 </div>
   );
 }
-export default PatientPractice
+export default PatientPersonPractice

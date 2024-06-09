@@ -1,18 +1,38 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {useLocation,useNavigate} from 'react-router-dom'
 import VisitHistory from '../../images/VisitHistory.jpg'
 import NextVisit from '../../images/NextVisit.png'
 import Practice from '../../images/practice.jpg';
 import Test from '../../images/Test.png';
+import GlobalVariables from '../Doctor/Globel';
+
 const ClinicalDetails = () => {
+  const [patienId,setPatientId]=useState({})
   const navigate = useNavigate();
   const location = useLocation();
-
+  const receivedData = location.state;
+  console.log(receivedData)
   useEffect(()=>{
-    const receivedData = location.state;
+    const fetchData=async()=>{
+      const responce = await fetch(GlobalVariables.apiUrl+`/api/User/GetPattient?cid=${receivedData.uid}`);
+      const data=await responce.json();
+      console.log(data);
+      setPatientId(data)
+    }
+    fetchData();
   },[])
+  const patientDetails=()=>{
+    try{
+      // const responce = await fetch(GlobalVariables.apiUrl+`/api/User/GetPatientAppointDateAndId?cid=${receivedData.uid}`);
+      // const data=await responce.json();
+      // console.log(data);
+      if(patienId){
+        navigate('/AppointmentDetails',{state:{patientId:patienId?.patientId,userId:receivedData.uid,Caregiver:1}})
+      }
+    }catch(err){console.log('Error:',err)}
+  }
   return (
     <div>
         <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:180,width:'100%',backgroundColor:"#AB91D9",}}>
@@ -22,7 +42,7 @@ const ClinicalDetails = () => {
    
     <Row className="justify-content-center"> {/* Added justify-content-center class to center the rows */}
       <Col xs={6} md={3}>
-        <button style={{ backgroundColor: '#DBBDE7',width: '160px', height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
+        <button onClick={patientDetails} style={{ backgroundColor: '#DBBDE7',width: '160px', height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
           <div className="text-center">
             <span className='d-block'>Visit History</span>
             <img src={VisitHistory} alt="Image 1" className="img-fluid" style={{ borderRadius: '10px' }} />
@@ -30,7 +50,7 @@ const ClinicalDetails = () => {
         </button>
       </Col>
       <Col xs={6} md={3}>
-        <button style={{ backgroundColor: '#DBBDE7', width: '160px', height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
+        <button onClick={()=>navigate('/NextVisit',{state:patienId})} style={{ backgroundColor: '#DBBDE7', width: '160px', height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
           <div className="text-center">
             <span className='d-block'>Next Visit</span>
             <img src={NextVisit} alt="Image 2" className="img-fluid" style={{ borderRadius: '10px' }}/>
@@ -40,7 +60,7 @@ const ClinicalDetails = () => {
     </Row>
     <Row className='mt-5 justify-content-center'> {/* Added justify-content-center class to center the rows */}
       <Col xs={6} md={3}>
-        <button style={{ backgroundColor: '#DBBDE7', width: '160px', height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
+        <button onClick={()=>navigate('/patientPractice',{state:{pid:patienId?.patientId,uid:receivedData.uid}})} style={{ backgroundColor: '#DBBDE7', width: '160px', height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
           <div className="text-center">
             <span className='d-block'>Practice</span>
             <img src={Practice} alt="Image 3" className="img-fluid" style={{ borderRadius: '10px', height:'120px'}} />
@@ -48,7 +68,7 @@ const ClinicalDetails = () => {
         </button>
       </Col>
       <Col xs={6} md={3} >
-        <button style={{ backgroundColor: '#DBBDE7', width: '160px', height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
+        <button onClick={()=>navigate('/patientTest',{state:{pid:patienId?.patientId,uid:receivedData.uid}})} style={{ backgroundColor: '#DBBDE7', width: '160px', height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
           <div className="text-center">
             <span className='d-block'>Test</span>
             <img src={Test} alt="Image 4" className="img-fluid" style={{ borderRadius: '10px',height: "120px"}}/>

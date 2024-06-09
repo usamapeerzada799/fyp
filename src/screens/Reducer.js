@@ -1,7 +1,9 @@
 
 const initialState = {
     objects1: [],
-    objects2: []
+    objects2: [],
+    objects3: [],
+    objects4: []
   };
   
   const reducer = (state = initialState, action) => {

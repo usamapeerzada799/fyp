@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import {useLocation,useNavigate} from 'react-router-dom'
 
-import GlobalVariables from './Globel'
-const AddPractic = () => {
+import GlobalVariables from '../Doctor/Globel'
+const AddPersonPratice = () => {
   const [data, setData] = useState([])
   const [selectedOption, setSelectedOption] = useState('a');
   const [selectStage, setSelectStage] = useState('select stage');
@@ -20,16 +20,16 @@ const AddPractic = () => {
     setReciveDataCheck(recivedata)
     const fetchDAta = async () => {
       try {
-        const responce = await fetch(GlobalVariables.apiUrl + "/api/Collection/GetAllCollection");
+        const responce = await fetch(GlobalVariables.apiUrl + `/api/Person/GetPersons?cid=${recivedata.userId}`);
         const data = await responce.json();
         console.log(data);
         setData(data);
         const groupedItems = data.reduce((groups, item) => {
-          const { C_group } = item;
-          if (!groups[C_group]) {
-            groups[C_group] = [];
+          const { relation } = item;
+          if (!groups[relation]) {
+            groups[relation] = [];
           }
-          groups[C_group].push(item);
+          groups[relation].push(item);
           return groups;
         }, {});
         console.log(groupedItems)
@@ -60,22 +60,23 @@ const AddPractic = () => {
     setCollectionData(prevIds => {
       if (event.target.checked) {
         // If checkbox is checked, add the item ID to the array
-        return [...prevIds, { collectid: itemId }];
+        return [...prevIds, { personId: itemId }];
       } else {
         // If checkbox is unchecked, filter out the item ID from the array
-        return prevIds.filter(idObj => idObj.collectid !== itemId);
+        return prevIds.filter(idObj => idObj.personId !== itemId);
       }
     });
     console.log(collectionData)
   };
 
   const newprac = async () => {
-    if (title && selectStage && collectionData) {
+    if (title && collectionData) {
+     
       try {
-        const dataa = { practice: { stage: selectStage, title: title, createBy: reciveDataCheck.userId }, collections: collectionData };
+        const dataa = { PersonPractice: {  title: title, createdBy: reciveDataCheck.userId,patientId:reciveDataCheck.pid }, Persons: collectionData };
         console.log(dataa);
 
-        const responce = await fetch(GlobalVariables.apiUrl + "/api/Practice/AddNewPractice",
+        const responce = await fetch(GlobalVariables.apiUrl + "/api/Person/Addpractice",
           {
             method: 'POST',
             headers: {
@@ -88,7 +89,7 @@ const AddPractic = () => {
         );
         const res = await responce.json();
         console.log(res)
-        navigate('/Practice', { state: reciveDataCheck })
+        navigate('/PersonPractice', { state: reciveDataCheck })
       } catch {
         console.log("data not save")
       }
@@ -111,34 +112,17 @@ const AddPractic = () => {
             <input type="text" className="form-control" placeholder="Enter Practice Title" onChange={(e) => setTitle(e.target.value)} />
           </div>
         </div>
-        <div className="col-md-4">
-          <div className="input-group mb-3">
-            <select className="form-select" value={selectStage} onChange={(e) => setSelectStage(e.target.value)}>
-              <option value="select stage">Select Stage</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-            </select>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="input-group mb-3">
-            <select className="form-select" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-              <option value="a">Alphabets</option>
-              <option value="w">Words</option>
-              <option value="s">Sentences</option>
-            </select>
-          </div>
-        </div>
+        
       </div>
       <div className="row">
       {Object.entries(collectData)
-      .filter(([group, items]) => items.some(item => item.type === selectedOption))
+      
       .map(([group, items]) => (
         <div key={group}>
           <h2>{group}</h2>
           <div className="row">
             {items.map((item, index) => {
-              if (item.type === selectedOption) {
+              
                 return (
                   <div key={index} className="col-md-3 col-4">
                     <div className="card mb-3 col-md-4 AddPrac" >
@@ -149,12 +133,12 @@ const AddPractic = () => {
                             type="checkbox"
                             className="form-check-input"
                              checked={checkedItems[item.id] || false} // Check if item is checked
-                             onChange={(e) => handleCheckboxChange(e, item.id,item.eText)}
+                             onChange={(e) => handleCheckboxChange(e, item.id)}
                           />
                         </div>
 
                         <div className="col-11">
-                          <h5 className="card-title">{item.eText}</h5>
+                          <h5 className="card-title">{item.name}</h5>
                         </div>
 
                       </div>
@@ -162,9 +146,7 @@ const AddPractic = () => {
                     </div>
                   </div>
                 );
-              } else {
-                return null;
-              }
+             
             })}
           </div>
         </div>
@@ -211,4 +193,4 @@ const AddPractic = () => {
 
   )
 }
-export default AddPractic
+export default AddPersonPratice

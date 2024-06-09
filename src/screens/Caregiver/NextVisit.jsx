@@ -1,4 +1,19 @@
+import { useEffect } from "react"
+import {useLocation,useNavigate} from 'react-router-dom'
+import GlobalVariables from '../Doctor/Globel';
 const NextVisit = () => {
+    const location = useLocation();
+  const receivedData = location.state;
+  console.log(receivedData)
+    useEffect(() => {
+        const fetchData=async()=>{
+            const responce = await fetch(`http://192.168.1.9/LernSpace/api/User/NextVisit?pid=7`);
+            const data=await responce.json();
+            console.log(data);
+            setPatientId(data)
+          }
+          fetchData();
+    }, [])
   return (
     <div>
         <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:180,width:'100%',backgroundColor:"#AB91D9",}}>

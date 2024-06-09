@@ -1,9 +1,9 @@
 import React, { useState,useEffect } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 import {useLocation,useNavigate} from 'react-router-dom'
-import GlobalVariables from './Doctor/Globel';
+import GlobalVariables from '../Doctor/Globel';
 import styled from 'styled-components';
-const Signup = () => {
+const PatientSignUp = () => {
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -15,24 +15,12 @@ const Signup = () => {
   });
   const [selectedImage, setSelectedImage] = useState(null);
   const[reciveDataCheck,setReciveDataCheck]=useState({})
-  const[data,setData]=useState([])
-  const[DoctorId,setDoctorId]=useState(0)
+  const[dataa,setData]=useState({})
   const navigate = useNavigate()
   const location=useLocation();
   useEffect(() => {
     try{
     const recivedata=location.state;
-    if(recivedata?.Uid){
-      const fetchData=async()=>{
-        const responce=await fetch(GlobalVariables.apiUrl+`/api/User/GetDoctors`)
-        const dataa=await responce.json()
-        if(dataa!=null){
-          setData(dataa)
-          console.log(dataa)
-        }
-      }
-      fetchData()
-    }
     setReciveDataCheck(recivedata)
     }catch(e){console.log('no data')}
     }, [formData]);
@@ -76,7 +64,6 @@ const Signup = () => {
       Data.append('age', formData.age);
       Data.append('gender', formData.gender);
       try {
-        Data.append('DoctorId',DoctorId)
         const response = await fetch(GlobalVariables.apiUrl + '/api/User/CaregiverRegisterPatient', {
           method: 'POST',
           headers: {
@@ -85,13 +72,8 @@ const Signup = () => {
           body: Data,
         });
         const data = await response.json();
-        
-        console.log(data)
         setData(data);
-        if(data=='registerd')
-          navigate('/')
-        else
-         alert(data)
+        console.log(data);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -108,10 +90,6 @@ const Signup = () => {
         const data = await response.json();
         setData(data);
         console.log(data);
-        if(data=='registerd')
-          navigate('/')
-        else
-         alert(data)
       } catch (error) {
         console.error('Error:', error);
       }
@@ -169,10 +147,10 @@ const Signup = () => {
   z-index: -1;
 
   `
+  
   return (
     <div>
-      <div className="text-black text-center fs-1" style={{ borderBottomRightRadius: '90%', height: 120, width: '100%', backgroundColor: "#DBBDE7" }}>
-        {reciveDataCheck ? ( <div className=" p-5">Patient Signup</div> ):( <div className=" p-5">SignUp</div>)}
+      <div className="text-white text-center fs-1" style={{ borderBottomRightRadius: '90%', height: 120, width: '100%', backgroundColor: "#003cb3" }}>
         <div className=" p-5">SignUp</div>
       </div>
       <div className="container-fluid h-100 d-flex justify-content-center align-items-center mt-1">
@@ -180,25 +158,6 @@ const Signup = () => {
           <Card className="fs-5 " style={{ borderRadius: '10px' }}>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="formBasicPicture" className='mt-3'>
-                 <SignUpprofileImage>
-                  <SignUpProfileImageContainer>
-                        <SignUpMovieProfileImage
-                        type="file"
-                        accept="image/*"
-                        id="custom-file"
-                        onChange={handlePictureChange}
-                      />
-                    
-                        <SignUpMovieProfileImage2
-                          src={selectedImage}
-                          alt=""
-                          
-                        />
-                        <SignUptextChooseImage>Click to Choose Image</SignUptextChooseImage>
-                      </SignUpProfileImageContainer>
-                  </SignUpprofileImage>
-                  </Form.Group>
                 <Form.Group controlId="formBasicName" className='mt-4'>
                   <Form.Control type="text" placeholder="Enter your full name" name="name" value={formData.name} onChange={handleChange} required className="form-control-lg" />
                 </Form.Group>
@@ -210,21 +169,13 @@ const Signup = () => {
                 <Form.Group controlId="formBasicPassword" className='mt-4'>
                   <Form.Control type="password" placeholder="Password" name="password" value={formData.password} onChange={handleChange} required className="form-control-lg" />
                 </Form.Group>
-                {!reciveDataCheck &&
-                <Form.Group controlId="formBasicDropdown" className='mt-4'>
-                  <select className="form-control fs-5" name="type" onChange={handleDropdownChange} required>
-                    <option value="">Select type</option>
-                    <option value="Doctor">Doctor</option>
-                    
-                    <option value="Caregiver">Caregiver</option>
-                  </select>
-                </Form.Group>
-                }
+
+                
                 {reciveDataCheck && (
                   <>
                     <Form.Group controlId="formBasicAge" className='mt-4'>
                       <Form.Control type="number" placeholder="Enter your age" name="age" value={formData.age} onChange={handleChange} required className="form-control-lg" />
-                    </Form.Group> 
+                    </Form.Group>
 
                     <Form.Group controlId="formBasicGender" className='mt-4'>
                       <Form.Label>Gender</Form.Label>
@@ -261,45 +212,28 @@ const Signup = () => {
                   </>
                 )}
 
-                {/* <Form.Group controlId="formBasicPicture" className='mt-3'>
-                 <label htmlFor="custom-file" className="btn btn-secondary">Choose Picture</label>
-                    <input type="file" id="custom-file" accept="image/*" onChange={handlePictureChange} style={{ display: 'none' }} required />
+                <Form.Group controlId="formBasicPicture" className='mt-3'>
+                <SignUpprofileImage>
+                  <SignUpProfileImageContainer>
+                        <SignUpMovieProfileImage
+                        type="file"
+                        accept="image/*"
+                        id="custom-file"
+                        onChange={handlePictureChange}
+                      />
                     
-                  <div className="input-group">
-                   {selectedImage && <img className='mt-1' src={selectedImage} alt="Selected" style={{ maxWidth: '100px', maxHeight: '100px', marginLeft: '10px' }} />}
-                </div>
-                </Form.Group> */}
-               {reciveDataCheck?.Uid && <div>
-                <h2>Select doctor</h2>
-      {data.map((item,index) =>{
-        return(
-        <div key={index} className="d-grid">
-            <div className="btn-lg btn btn-outline-info"  style={{ backgroundColor: '#DBBDE7', borderRadius: '10px'}}>
-            <div className="row align-items-center  text-black " style={{ backgroundColor: '#DBBDE7', borderRadius: '10px' }}>
-            <div className="d-flex flex-row col-4">
-                <img className="img-fluid rounded-circle" style={{ width: '100px', height: '85px' }} src={GlobalVariables.apiUrl+item.profPicPath} alt="" />
-                <span className="mt-2 ml-2" style={{marginLeft:'0.5rem'}}>{item.name}</span>
-            </div>
-            <div className="col-8">
-                <div className="">
-                    <div className="d-flex flex-column float-end col-8 w-50">
-                        
-                        <button className=" w-10 btn btn-primary btn-lg text-black" onClick={()=>{setDoctorId(item.uid)}} disabled={DoctorId!==0} style={{background:'#EDDDE4'}}>Select</button>
-                        
-                        
-                    </div>
-                    
-                    {/* <span className="float-end">{`${formattedHours}:${formattedMinutes} ${ampm}`}</span> */}
-                </div>
-                </div>
-            </div>
-            </div>
-            <hr />
-        </div>
-        )})}
-        </div>}
+                        <SignUpMovieProfileImage2
+                          src={selectedImage}
+                          alt=""
+                          
+                        />
+                        <SignUptextChooseImage>Click to Choose Image</SignUptextChooseImage>
+                      </SignUpProfileImageContainer>
+                  </SignUpprofileImage>
+
+                </Form.Group>
                 <div className="d-flex justify-content-end mt-2">
-                  <Button className='btn btn-primary btn-lg text-black' style={{backgroundColor:'#DBBDE7'}} type="submit">
+                  <Button className='btn btn-primary btn-lg' type="submit">
                     Register
                   </Button>
                 </div>
@@ -310,9 +244,8 @@ const Signup = () => {
           {/* <p>{dataa}</p> */}
         </div>
       </div>
-      
     </div>
   );
 };
 
-export default Signup;
+export default PatientSignUp;

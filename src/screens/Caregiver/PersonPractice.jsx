@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {useLocation,useNavigate} from 'react-router-dom'
 //import '../../css/Doctor/Practice.scss'
-import GlobalVariables from './Globel'
+import GlobalVariables from '../Doctor/Globel';
 import Store from "../Store";
-const Practice = () => {
+const PersonPractice = () => {
   const [data,setData]=useState([]);
   const [pracTitle,SetpracTitle]=useState([]);
   const [singlePracticData,setSinglePractData]=useState([{eText:""}]);
@@ -13,7 +13,7 @@ const Practice = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [reciveDataCheck,setReciveDataCheck]=useState({});
-  const [AppointmentPractics,setAppointmentPractics]=useState([])
+  const [AppointmentPersonPractics,setAppointmentPractics]=useState([])
   let receivedData=''
 
  
@@ -27,12 +27,9 @@ const Practice = () => {
         receivedData = location.state;
         console.log(receivedData)
         setReciveDataCheck(receivedData)
-        if(receivedData?.reciveDataCheck){
-          receivedData=receivedData.reciveDataCheck;
-          console.log(receivedData)
-         }
+        
          let patientId = receivedData.patientId ? receivedData.patientId : 0;
-        const responce = await fetch(GlobalVariables.apiUrl+`/api/Practice/userDefindPractices?Uid=${receivedData.userId}&pid=${patientId}`);
+        const responce = await fetch(GlobalVariables.apiUrl+`/api/Person/GetPersonpracticesWithDetail?Uid=${receivedData.userId}`);
         const data=await responce.json();
         console.log(data);
         setData(data);
@@ -58,8 +55,8 @@ const Practice = () => {
  
   useEffect(()=>{
     console.log(reciveDataCheck)
-    console.log(AppointmentPractics)
-  },[pracTitle,reciveDataCheck,AppointmentPractics]);
+    console.log(AppointmentPersonPractics)
+  },[pracTitle,reciveDataCheck,AppointmentPersonPractics]);
    const singlePracData=(e,ind)=>{
     
     if(e.toggle){ 
@@ -95,20 +92,20 @@ const Practice = () => {
       setToglersign('>')
     }
    }
-   const handleCheckboxChange = (e, practiceId) => {
+   const handleCheckboxChange = (e, personPracticeId) => {
     const { checked } = e.target;
   
     setAppointmentPractics(prevState => {
-      const index = prevState.findIndex(item => item.practiceId === practiceId);
+      const index = prevState.findIndex(item => item.personPracticeId === personPracticeId);
   
       if (checked) {
         // If checked, insert the object next to the current index
         const updatedState = [...prevState];
-        updatedState.splice(index + 1, 0, { practiceId });
+        updatedState.splice(index + 1, 0, { personPracticeId });
         return updatedState;
       } else {
         // If unchecked, remove the object with matching pracId
-        return prevState.filter(item => item.practiceId !== practiceId);
+        return prevState.filter(item => item.personPracticeId !== personPracticeId);
       }
     });
   };
@@ -117,8 +114,8 @@ const Practice = () => {
   Store.dispatch({
     type: 'ADD_OBJECT',
     payload: {
-      collectionName: 'objects1',
-      object: {AppointmentPractics}
+      collectionName: 'objects3',
+      object: {AppointmentPersonPractics}
     }
   });
   navigate('/AddNewAppointment',{state:reciveDataCheck})
@@ -128,14 +125,14 @@ const Practice = () => {
   return (
     <div className="container">
         <span className="fs-3 d-block text-center fw-bold">
-          Practice
+          Person Practice
         </span>
         
         {pracTitle.map((a,index)=>{
           
         return(
           <div key={index}>
-          <div className="row align-items-center m-1 text-black" style={{ backgroundColor: '#DBBDE7', borderRadius: '10px'}}>
+          <div className="row align-items-center m-1 text-light" style={{ backgroundColor: '#0DB495', borderRadius: '10px'}}>
             <div className="col">
               {(reciveDataCheck?.patientId ) &&   
                 <div className="col-1">
@@ -143,12 +140,12 @@ const Practice = () => {
                 type="checkbox"
                 className="form-check-input"
                  // Check if item is checked
-                 onChange={(e) => handleCheckboxChange(e, a.pracId)}
+                 onChange={(e) => handleCheckboxChange(e, a.practiceId)}
               />
                 </div >
                 
                 }
-              <h3 className={`${a.flag ?'text-success' : 'text-black' } d-inline p-2 fs-5`}>{a.title}</h3>
+              <h3 className={`${a.flag ?'text-success' : 'text-light' } d-inline p-2 fs-5`}>{a.title}</h3>
               <hr/>
             </div>
             <div className="col-auto">
@@ -164,7 +161,7 @@ const Practice = () => {
                  <div key={index} className="col-lg-3 col-md-4 col-sm-4 col-4"> {/* Adjust column sizes as needed */}
                    <div className="togleData Practic" >
                      <img src={GlobalVariables.apiUrl + item.picPath} className="img-fluid " style={{height: '150px'}} alt="Practice Image" />
-                     <h4>{item.eText}</h4>
+                     <h4>{item.name}</h4>
                    </div>
                  </div>
                ))}
@@ -179,11 +176,11 @@ const Practice = () => {
         })}
         <div className="BtnAddpractic">
           
-          <button className="btn btn-primary text-black" onClick={()=>{navigate('/Addpractice',{state:reciveDataCheck})}} style={{ backgroundColor: '#DBBDE7', borderRadius: '10px'}}>
+          <button className="btn btn-primary" onClick={()=>{navigate('/AddPersonPratice',{state:reciveDataCheck})}}>
             ADD new Practice
           </button>
           {(reciveDataCheck?.patientId ) &&
-          <button className="btn btn-primary text-black"  style={{marginLeft:'0.5rem', backgroundColor: '#DBBDE7', borderRadius: '10px'}} onClick={()=>submitHandler()}>
+          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>submitHandler()}>
           ADD to Appointment
           </button>
           }
@@ -192,4 +189,4 @@ const Practice = () => {
     </div>
   )
 }
-export default Practice
+export default PersonPractice

@@ -23,7 +23,7 @@ const Login = () => {
         }else{
           
           if(data.type=="doctor"){
-          navigate('/Appointment', { state: data })
+          navigate('/DoctorDashBoard', { state: data })
           setSharedData(data);
           }
          else if(data.type=="Caregiver")
