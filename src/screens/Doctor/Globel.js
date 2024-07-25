@@ -1,4 +1,4 @@
 const GlobalVariables = {
-  apiUrl: "http://192.168.1.110/LernSpace"
+  apiUrl: "http://192.168.43.188/LernSpace"
 };
 export default GlobalVariables;

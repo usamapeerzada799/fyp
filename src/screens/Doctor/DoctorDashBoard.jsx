@@ -8,15 +8,33 @@ import NextVisit from '../../images/NextVisit.png'
 import ClinicalDetails from '../../images/ClinicalDetails-removebg-preview.jpg'
 import Activity from '../../images/Activity.jpg'
 import {useLocation,useNavigate} from 'react-router-dom'
+import GlobalVariables from './Globel';
 
 const DoctorDashBoard = () => {
     const navigate = useNavigate();
   const location = useLocation();
   const[reciveDataCheck,setReciveDataCheck]=useState({})
+  
+    const[data,setData]=useState([])
   useEffect(()=>{
     const recivedata=location.state;
     console.log(recivedata.uid)
     setReciveDataCheck(recivedata)
+    const fetchData = async () => {
+      try {
+          const receivedData = location.state;
+          const response = await fetch(GlobalVariables.apiUrl+`/api/User/NewPatientRequest?uid=${receivedData.uid}`);
+          const dataa = await response.json();
+          console.log(dataa);
+          setData(dataa)
+          
+         
+      } catch (error) {
+          console.error('Error fetching data:', error);
+      }
+  };
+    
+   fetchData();
   },[])
   return (
     <div>
@@ -43,8 +61,13 @@ const DoctorDashBoard = () => {
     </Row>
     <Row className="justify-content-center mt-5"> {/* Added justify-content-center class to center the rows */}
       <Col xs={6} md={3}>
-        <button style={{ backgroundColor: '#DBBDE7', width: '160px',height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
+        <button className="position-relative" onClick={()=>navigate('/NewPatientRequest',{state:{Doctor:reciveDataCheck,Purposal:data}})} style={{ backgroundColor: '#DBBDE7', width: '160px',height: '150px', borderRadius: '10px', border: 'none', outline: 'none' }}>
           <div className="text-center">
+            {data.length>0 &&
+          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {data.length}+
+          </span>
+          }
             <span className='d-block'>New Patient Request</span>
             <img src={NextVisit} alt="Image 1" className="img-fluid" style={{ borderRadius: '10px',width: '130px',height:'100px' }} />
           </div>

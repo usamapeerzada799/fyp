@@ -7,7 +7,7 @@ const NextVisit = () => {
   console.log(receivedData)
     useEffect(() => {
         const fetchData=async()=>{
-            const responce = await fetch(`http://192.168.1.9/LernSpace/api/User/NextVisit?pid=7`);
+            const responce = await fetch(GlobalVariables.apiUrl+`/api/User/NextVisit?pid=7`);
             const data=await responce.json();
             console.log(data);
             setPatientId(data)
@@ -26,7 +26,7 @@ const NextVisit = () => {
                 <div className="row">
                 <div className="col">
                     <span className="fw-bold">Date</span>
-                    <span className="d-block">22-Oct-2023</span>
+                    <span className="d-block">22-july-2024</span>
                 </div>
                 </div>
                 <hr/>
@@ -40,14 +40,14 @@ const NextVisit = () => {
                 <div className="row">
                 <div className="col">
                     <span className="fw-bold">Doctor</span>
-                    <span className="d-block">Dr. Ali Haider</span>
+                    <span className="d-block">Dr. Faizan Ahmed</span>
                 </div>
                 </div>
             </div>
             </div>
         </div>
         </div>
-        <div className="text-white text-center fs-1 mt-2" style={{borderTopRightRadius:'90%' ,height:133,width:'100%',backgroundColor:"#AB91D9",}}>
+        <div className="text-white text-center fs-1 mt-2" style={{borderTopRightRadius:'90%' ,height:133,width:'100%',backgroundColor:"#AB91D9", position: 'fixed', bottom: 0, left: 0}}>
      
      </div>
     </div>

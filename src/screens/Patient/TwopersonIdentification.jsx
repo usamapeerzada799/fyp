@@ -1,23 +1,26 @@
 import React, { useRef, useState, useEffect,useCallback } from 'react';
-import GlobalVariables from './Doctor/Globel';
+import GlobalVariables from '../Doctor/Globel';
 import Webcam from 'react-webcam'
 import { FaVolumeUp } from "react-icons/fa";
 
-import '../App.css';
+
 const videoConstraints = {
     width: 1280,
     height: 720,
     facingMode: "user"
   };
-const CameraComponent = () => {
+const TwopersonIdentification = () => {
     const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [stream, setStream] = useState(null);
   const [image, setImage] = useState(null);
   const [data,setData]=useState({})
+  const [data1,setData1]=useState({})
   const webcamRef = useRef(null);
   const [currentIndex,setCurrentIndex]=useState(0)
-
+  var name=""
+ var count=0
+ useEffect(()=>{console.log(data)},[data])
   const capture = useCallback(
     () => {
       const fetchapi=async()=>{
@@ -38,6 +41,11 @@ const CameraComponent = () => {
 
       const Data = new FormData();
       Data.append('personPic', blob);
+      if(count==0)
+        Data.append('name', "p");
+      else{
+        Data.append('name', name);
+      }
       try{
       const response = await fetch(GlobalVariables.apiUrl+ '/api/Person/Upload', {
         method: 'POST',
@@ -49,6 +57,13 @@ const CameraComponent = () => {
       if(response.status==200){
         const json = await response.json();
         setData(json)
+        count=count+1
+        name=json.name
+        console.log(count)
+        if(count==1){
+         setImage(null)
+         setData1(json)
+        }
         console.log(json);
       }
       else {
@@ -89,7 +104,7 @@ const CameraComponent = () => {
 
   return (
     <div>
-     {!image && <div style={{ display: 'flex', 
+     {(!image && count!=2)  && <div style={{ display: 'flex', 
       flexDirection: 'column', 
       height: '100vh', 
       width: '100vw', 
@@ -152,6 +167,20 @@ const CameraComponent = () => {
   
       {(data?.person?.audioPath && data!="null") &&(
         <div>
+            <div style={{ display: 'flex', flexDirection: 'row'}}>
+             <div>
+          <img src={GlobalVariables.apiUrl + data1?.profilePicPath} style={{height:'28rem',width:'24rem'}} alt="captured photo"/>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+            <h1>{data1?.name}</h1>
+            <button
+              onClick={() => playAudio(GlobalVariables.apiUrl + data1?.audioPath)}
+              style={{ backgroundColor: 'transparent', border: 'none', marginLeft: '10px' }}
+            >
+              <FaVolumeUp style={{ height: '30px', width: '40px' }} />
+            </button>
+          </div>
+          </div>
+            <div>
           <img src={GlobalVariables.apiUrl + data?.person?.profilePicPath} style={{height:'28rem',width:'24rem'}} alt="captured photo"/>
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
             <h1>{data?.person?.name}</h1>
@@ -161,6 +190,8 @@ const CameraComponent = () => {
             >
               <FaVolumeUp style={{ height: '30px', width: '40px' }} />
             </button>
+          </div>
+          </div>
           </div>
           <div className="col-md-6 text-center mt-5">
             <h4>{data?.Sentence[currentIndex]}</h4>
@@ -180,4 +211,4 @@ const CameraComponent = () => {
 
   
 }
-export default CameraComponent
+export default TwopersonIdentification

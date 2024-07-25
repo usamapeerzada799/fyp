@@ -60,11 +60,19 @@ const PatientMain = () => {
           </div>
         </button>
       </Col>
-
+    </Row><Row>
       <Col xs={6} md={3} className='mt-3'>
         <button onClick={()=>navigate('/PatientPersonTest',{state:reciveDataCheck})} style={{ backgroundColor: '#DBBDE7', width: '160px', height: '110px', borderRadius: '10px', border: 'none', outline: 'none' }}>
           <div className="text-center">
             <span className='d-block'>Person Test</span>
+            <img src={People} alt="Image 3" className="img-fluid" style={{ borderRadius: '10px', height:'90px',width: '120px'}} />
+          </div>
+        </button>
+      </Col>
+      <Col xs={6} md={3} className='mt-3'>
+        <button onClick={()=>navigate('/TwoPersonTest',{state:reciveDataCheck})} style={{ backgroundColor: '#DBBDE7', width: '160px', height: '110px', borderRadius: '10px', border: 'none', outline: 'none' }}>
+          <div className="text-center">
+            <span className='d-block'>Two Person Test</span>
             <img src={People} alt="Image 3" className="img-fluid" style={{ borderRadius: '10px', height:'90px',width: '120px'}} />
           </div>
         </button>

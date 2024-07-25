@@ -1,8 +1,9 @@
+
 import { useEffect, useState } from "react"
 import GlobalVariables from "../Doctor/Globel";
 import Modal from "react-modal";
 import {useLocation,useNavigate} from 'react-router-dom'
-const AddPersonTest = () => {
+const AddTwoPersonTest = () => {
     const [selectedOption, setSelectedOption] = useState('a');
     const [selectStage, setSelectStage] = useState('select stage');
     const [title, setTitle] = useState('')
@@ -72,8 +73,8 @@ const AddPersonTest = () => {
         console.log(testCollectionData)
       };
       const Model1Check=()=>{
-        if(testCollectionData.length<4){
-          alert('select  at least 4 items for options!')
+        if(testCollectionData.length<8){
+          alert('select  at least 8 items for options!')
         }
         else{
 
@@ -97,18 +98,23 @@ const AddPersonTest = () => {
           if(testData.length>0){
             const CollectData = testData.map((e) => {
                 return {
-                    personId: e[0].collectid,
-                    op1: e[1].collectid,
-                    op2: e[2].collectid,
-                    op3: e[3].collectid,
-                    
+                    questionTitle:e.questionTitle,
+                    personId1: e[0].collectid,
+                    personId2: e[1].collectid,
+                    op1: e[2].collectid,
+                    op2: e[3].collectid,
+                    op3: e[4].collectid,
+                    op4: e[5].collectid,
+                    op5: e[6].collectid,
+                    op6: e[7].collectid,
+
                 };
             });
             
-            const tst = { createBy: reciveDataCheck.userId, patientId:reciveDataCheck.pid, title: title };
+            const tst = { createdBy: reciveDataCheck.userId, patientId:reciveDataCheck.pid, title: title };
             const sendTestData = { Test: tst, Persons: CollectData };
-            console,log(sendTestData)
-            const response = await fetch(GlobalVariables.apiUrl + "/api/Person/AddPersonTest", {
+            console.log(sendTestData)
+            const response = await fetch(GlobalVariables.apiUrl + "/api/Person/AddTwoPersonTest", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -160,7 +166,7 @@ const AddPersonTest = () => {
     
     <div>
       <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:150,width:'100%',backgroundColor:"#AB91D9",}}>
-        <div className=" p-5">Create Person Test</div>
+        <div className=" p-5">Create Two Persons Test</div>
       </div>
       <div className="row mt-3">
         <div className="col-md-4">
@@ -246,8 +252,9 @@ const AddPersonTest = () => {
       >
         
         <h2>1.Enter question</h2>
-        <h2>2.Select right option</h2>
-        <h2>3.Select other 3 option</h2>
+        <h2>2.Select 1st right option</h2>
+        <h2>2.Select 2nd right option</h2>
+        <h2>3.Select other 6 option</h2>
         <button className="btn btn-success"
         onClick={()=>{setModel2(false);setModel1(true)}}>ok</button>
       </Modal>
@@ -265,6 +272,10 @@ const AddPersonTest = () => {
                       <span className="card-text mx-2">{e[1].eText}</span>
                       <span className="card-text mx-2">{e[2].eText}</span>
                       <span className="card-text ml-2">{e[3].eText}</span>
+                      <span className="card-text ml-2">{e[4].eText}</span>
+                      <span className="card-text ml-2">{e[5].eText}</span>
+                      <span className="card-text ml-2">{e[6].eText}</span>
+                      <span className="card-text ml-2">{e[7].eText}</span>
                     </div>
                   </div>
                 </div>
@@ -285,4 +296,4 @@ const AddPersonTest = () => {
     
   )
 }
-export default AddPersonTest
+export default AddTwoPersonTest

@@ -140,7 +140,7 @@ if(data?.PracticeData?.length>0){
         </div>
       </div>}
     </div>
-    {testData?.length>0 && <div>
+    {/* {testData?.length>0 && <div>
     <div><span>Progress</span></div>
     <div className="progress" style={{height:30}} >
       <div className="progress-bar" role="progressbar" aria-valuenow="70"
@@ -148,7 +148,7 @@ if(data?.PracticeData?.length>0){
         <span className="sr-only fs-5">{progress}%</span>
       </div>
     </div>
-    </div>}    
+    </div>}     */}
     <Chart data={ChartData} title={"Test Graph"}/>
     {(recvData.userId && recvData.nextAppointDate) &&
     <div className="row justify-content-center">

@@ -77,7 +77,7 @@ const Signup = () => {
       Data.append('gender', formData.gender);
       try {
         Data.append('DoctorId',DoctorId)
-        const response = await fetch(GlobalVariables.apiUrl + '/api/User/CaregiverRegisterPatient', {
+        const response = await fetch(GlobalVariables.apiUrl+'/api/User/CaregiverRegisterPatient', {
           method: 'POST',
           headers: {
             Accept: 'application/json'
@@ -88,8 +88,10 @@ const Signup = () => {
         
         console.log(data)
         setData(data);
-        if(data=='registerd')
+        if(data=='registerd'){
+          alert(data)
           navigate('/')
+        }
         else
          alert(data)
       } catch (error) {
@@ -200,7 +202,7 @@ const Signup = () => {
                   </SignUpprofileImage>
                   </Form.Group>
                 <Form.Group controlId="formBasicName" className='mt-4'>
-                  <Form.Control type="text" placeholder="Enter your full name" name="name" value={formData.name} onChange={handleChange} required className="form-control-lg" />
+                  <Form.Control type="text" placeholder="Enter full name" name="name" value={formData.name} onChange={handleChange} required className="form-control-lg" />
                 </Form.Group>
 
                 <Form.Group controlId="formBasicUsername" className='mt-4'>
@@ -223,7 +225,7 @@ const Signup = () => {
                 {reciveDataCheck && (
                   <>
                     <Form.Group controlId="formBasicAge" className='mt-4'>
-                      <Form.Control type="number" placeholder="Enter your age" name="age" value={formData.age} onChange={handleChange} required className="form-control-lg" />
+                      <Form.Control type="number" placeholder="Enter age" name="age" value={formData.age} onChange={handleChange} required className="form-control-lg" />
                     </Form.Group> 
 
                     <Form.Group controlId="formBasicGender" className='mt-4'>

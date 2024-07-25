@@ -26,7 +26,7 @@ const ShowAllPatients = () => {
     fetchData()
     },[])
     return (
-    <div>Patients List
+    <div><h3>Patients List</h3>
         <div>
         {allpatient.map((item,index) =>{ 
 

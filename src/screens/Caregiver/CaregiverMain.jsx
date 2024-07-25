@@ -69,9 +69,10 @@ const CaregiverMain = () => {
       </Col>
     </Row>
   </Container>
-     <div className="text-white text-center fs-1" style={{borderTopRightRadius:'90%' ,height:190,width:'100%',backgroundColor:"#AB91D9",}}>
+     <div className="text-white text-center fs-1" style={{borderTopRightRadius:'90%' ,height:190,width:'100%',backgroundColor:"#AB91D9", position: 'fixed', bottom: 0, left: 0}}>
      
     </div>
+    
   </div>
   )
 }

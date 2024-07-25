@@ -41,8 +41,14 @@ const playAudio = (audioUrl) => {
   const currentObject = practices[currentIndex];
   
   return (
-    <div className="container mt-5">
-    <div className="row justify-content-center">
+    <div className="">
+      <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:120,width:'100%',backgroundColor:"#AB91D9"}}>
+     
+     </div>
+      <div className=" text-white text-center fs-1" style={{borderTopRightRadius:'90%' ,height:120,width:'100%',backgroundColor:"#AB91D9", position: 'fixed', bottom: 0, left: 0}}>
+     
+     </div>
+    <div className=" container mt-5 row justify-content-center">
         <div className="col-md-6 text-center">
             <img src={GlobalVariables.apiUrl + practices[currentIndex]?.Path} alt="Object Image"  className="img-fluid " style={{height: '250px'}}/>
             <h1>{practices[currentIndex]?.Name}</h1>

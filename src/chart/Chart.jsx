@@ -9,14 +9,14 @@ import {
 } from "recharts";
 import React,{useEffect,useState} from "react";
 import GlobalVariables from "../screens/Doctor/Globel";
-// const dataaaa = [
-//   { name: "January", Total: 1200 },
-//   { name: "February", Total: 2100 },
-//   { name: "March", Total: 800 },
-//   { name: "April", Total: 1600 },
-//   { name: "May", Total: 900 },
-//   { name: "June", Total: 1700 },
-// ];
+const dataaaa = [
+  { name: "January", Total: 1200, AnotherTotal: 1000 },
+  { name: "February", Total: 2100, AnotherTotal: 1400 },
+  { name: "March", Total: 800, AnotherTotal: 700 },
+  { name: "April", Total: 1600, AnotherTotal: 1200 },
+  { name: "May", Total: 900, AnotherTotal: 500 },
+  { name: "June", Total: 1700, AnotherTotal: 1500 },
+];
 
 const Chart = ({ aspect, title,data }) => {
   // const [dataaa,setData]=useState([])
@@ -55,6 +55,13 @@ const Chart = ({ aspect, title,data }) => {
             fillOpacity={1}
             fill="url(#total)"
           />
+          {/* <Area
+            type="monotone"
+            dataKey="AnotherTotal"
+            stroke="#82ca9d"
+            fillOpacity={1}
+            fill="url(#anotherTotal)"
+          /> */}
         </AreaChart>
       </ResponsiveContainer>
     </div>

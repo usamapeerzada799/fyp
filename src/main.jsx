@@ -7,6 +7,7 @@ import Appointment from'./screens/Doctor/Appointment.jsx';
 import AppointmentDetails from'./screens/Doctor/AppointmentDetails.jsx'; 
 import AddNewAppointment from'./screens/Doctor/AddNewAppointment.jsx';
 import PatientPersonPractice from './screens/Patient/PatientPersonPractice.jsx';
+import NewPatientRequest from './screens/Doctor/NewPatientRequest.jsx';
 import TestDetail from'./screens/Doctor/TestDetail.jsx';
 import Test from'./screens/Doctor/Test.jsx';
 import DoctorDashBoard from './screens/Doctor/DoctorDashBoard.jsx';
@@ -16,6 +17,7 @@ import CaregiverMain from'./screens/Caregiver/CaregiverMain.jsx';
 import ClinicalDetails from './screens/Caregiver/ClinicalDetails.jsx';
 import Signup from'./screens/Signup.jsx';
 import NextVisit from'./screens/Caregiver/NextVisit.jsx';
+import AddTowpersonSentences from './screens/Caregiver/AddTowpersonSentences.jsx';
 import SideBar from'./screens/SideBar.jsx';
 import ShowAllPatients from'./screens/Doctor/ShowAllPatients.jsx';
 import AllAppointsments from'./screens/Doctor/AllAppointsments.jsx';
@@ -24,10 +26,14 @@ import PatientPractice from'./screens/Patient/PatientPractice.jsx';
 import PatientTest from'./screens/Patient/PatientTest.jsx';
 import VoiceAccess from './screens/VoiceAccess.jsx';
 import AddPersonPratice from './screens/Caregiver/AddPersonPratice.jsx';
+import TwoPersonTest from './screens/Patient/TwoPersonTest.jsx';
 import AddPersonTest from './screens/Caregiver/AddPersonTest.jsx';
 import DoctorList from './screens/Caregiver/DoctorList.jsx'
 import PersonTest from './screens/Caregiver/PersonTest.jsx';
 import PatientPersonTest from './screens/Patient/PatientPersonTest.jsx';
+import AddTwoPersonTest from './screens/Caregiver/AddTwoPersonTest.jsx';
+import AddNewCollection from './screens/AddNewCollection.jsx';
+import TwopersonIdentification from './screens/Patient/TwopersonIdentification.jsx';
 import Chart from './chart/Chart.jsx'
 import { useDataContext,DataContextProvider } from './screens/DataContext.jsx';
 import Store from './screens/Store.js';
@@ -105,9 +111,33 @@ const router = createBrowserRouter(
    
  },
    {
+    path:'/AddNewCollection',
+    element:<AddNewCollection/>
+  },
+  {
+    path:'/AddTowpersonSentences',
+    element:<AddTowpersonSentences/>
+  },
+  {
+    path:'/TwoPersonTest',
+    element:<TwoPersonTest/>
+  },
+  {
+    path:'/AddTwoPersonTest',
+    element:<AddTwoPersonTest/>
+  },
+   {
      path:'/Practice',
      element:<Practice/>
    },
+   {
+    path:'/TwopersonIdentification',
+    element:<TwopersonIdentification/>
+  },
+   {
+    path:'/NewPatientRequest',
+    element:<NewPatientRequest/>
+  },
    {
     path:'/DoctorList',
     element:<DoctorList/>

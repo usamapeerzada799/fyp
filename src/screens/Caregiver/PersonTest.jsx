@@ -134,7 +134,7 @@ const PersonTest = () => {
         {testTitle.map((e,index)=>{
         return(
           <div key={index}>
-          <div className="row align-items-center m-1 text-light" style={{ backgroundColor: '#0DB495', borderRadius: '10px'}}>
+          <div className="row align-items-center m-1 text-Black" style={{ backgroundColor: '#DBBDE7', borderRadius: '10px'}}>
             <div className="col">
               {(reciveDataCheck?.patientId ) &&   
                 <div className="col-1">
@@ -147,7 +147,7 @@ const PersonTest = () => {
                 </div >
                 
                 }
-              <h3 className={`${e.flag ?'text-success' : 'text-light' } d-inline p-2 fs-5`}>{e.Title}</h3>
+              <h3 className={`${e.flag ?'text-success' : 'text-Black' } d-inline p-2 fs-5`}>{e.Title}</h3>
               <hr/>
             </div>
             <div className="col-auto">
@@ -192,13 +192,13 @@ const PersonTest = () => {
       )}
       </div>
       )})}
-        <div className="BtnAddpractic">
+        <div >
           
-          <button className="btn btn-primary" onClick={()=>{navigate('/AddPersonTest',{state:reciveDataCheck})}}>
+          <button className="btn btn-primary text-black"  style={{marginLeft:'0.5rem', backgroundColor: '#DBBDE7', borderRadius: '10px'}} onClick={()=>{navigate('/AddPersonTest',{state:reciveDataCheck})}}>
             ADD new Test
           </button>
           {(reciveDataCheck?.patientId ) &&
-          <button className="btn btn-primary" style={{marginLeft:'0.5rem'}} onClick={()=>submitHandler()}>
+          <button className="btn btn-primary text-black"  style={{marginLeft:'0.5rem', backgroundColor: '#DBBDE7', borderRadius: '10px'}} onClick={()=>submitHandler()}>
           ADD to Appointment
           </button>
           }

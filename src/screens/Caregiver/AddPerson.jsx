@@ -42,6 +42,12 @@ const AddPerson = () => {
     });
     setSelectedImage(URL.createObjectURL(e.target.files[0]));
   };
+  // const handlePictureChange = (e) => {
+  //   const files = Array.from(e.target.files); // Convert the FileList to an array
+  //   setFormData({
+  //     ...formData,
+  //     pictures: files
+  //   });
   const handleAudioChange = (e) => {
     setFormData({
       ...formData,
@@ -152,7 +158,7 @@ const AddPerson = () => {
 
   `
   return (
-    <div><div className="text-white text-center fs-1" style={{ borderBottomRightRadius: '90%', height: 120, width: '100%', backgroundColor: "#003cb3" }}>
+    <div><div className="text-white text-center fs-1" style={{ borderBottomRightRadius: '90%', height: 120, width: '100%', backgroundColor: "#AB91D9" }}>
     <div className=" p-5">Add Person</div>
   </div>
   <div className="container-fluid h-100 d-flex justify-content-center align-items-center mt-1">
@@ -168,6 +174,7 @@ const AddPerson = () => {
                     accept="image/*"
                     id="custom-image-file"
                     onChange={handlePictureChange}
+                    //multiple
                   />
                 
                     <SignUpMovieProfileImage2
@@ -244,8 +251,8 @@ const AddPerson = () => {
             </Form.Group> */}
            
             <div className="d-flex justify-content-end mt-2">
-              <Button className='btn btn-primary btn-lg' type="submit" disabled={loading}>
-              {loading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Register'}
+              <Button className='btn btn-primary btn-lg' type="submit" disabled={loading} style={{background:'#AB91D9'}}>
+              {loading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Add'}
               </Button>
             </div>
             

@@ -76,6 +76,16 @@ const Activities = () => {
           </div>
         </button>
       </Col>
+      </Row>
+      <Row>
+      <Col xs={6} md={3} >
+        <button onClick={()=>navigate('/AddTwoPersonTest',{state:{pid:patienId?.patientId,userId:receivedData?.uid}})} style={{ backgroundColor: '#DBBDE7', width: '160px', height: '110px', borderRadius: '10px', border: 'none', outline: 'none' }}>
+          <div className="text-center">
+            <span className='d-block'>Add Two person Test</span>
+            <img src={Test} alt="Image 4" className="img-fluid" style={{ borderRadius: '10px',height: "90px"}}/>
+          </div>
+        </button>
+      </Col>
       <Col xs={6} md={3} >
         <button onClick={()=>navigate('/AddNewAppointment',{state:{patientId:patienId?.patientId,userId:receivedData?.uid,careGiver:1}})} style={{ backgroundColor: '#DBBDE7', width: '160px', height: '110px', borderRadius: '10px', border: 'none', outline: 'none',marginTop:'1rem' }}>
           <div className="text-center">
@@ -87,7 +97,7 @@ const Activities = () => {
     </Row>
     
   </Container>
-     <div className="text-white text-center fs-1" style={{borderTopRightRadius:'90%' ,height:135,width:'100%',backgroundColor:"#AB91D9",}}>
+     <div className="text-white text-center fs-1" style={{borderTopRightRadius:'90%' ,height:135,width:'100%',backgroundColor:"#AB91D9", position: 'fixed', bottom: 0, left: 0}}>
      
     </div>
   </div>

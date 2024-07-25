@@ -84,7 +84,13 @@ const AddNewAppointment = () => {
   return (
     <div className="">
       <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:180,width:'100%',backgroundColor:"#AB91D9",}}>
-      <div className=" p-5">New Appointment</div>
+      <div className='text-center'>
+    {reciveDataCheck.careGiver ? (
+        <div className="p-5">Assign new Activity</div>
+    ) : (
+        <div className="p-5">New Appointment</div>
+    )}
+</div>
       </div>
       {/* <div className="fs-2 mt-2" style={{ marginLeft: '2.25rem' }}>Name</div>
       <hr/> */}

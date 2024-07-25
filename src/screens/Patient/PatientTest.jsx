@@ -164,6 +164,12 @@ const playAudio = (audioUrl) => {
   }
   return (
     <div>
+      <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:120,width:'100%',backgroundColor:"#AB91D9"}}>
+     
+     </div>
+      <div className=" text-white text-center fs-1" style={{borderTopRightRadius:'90%' ,height:120,width:'100%',backgroundColor:"#AB91D9", position: 'fixed', bottom: 0, left: 0}}>
+     
+     </div>
     {Test &&
     <div className="align-items-center" style={{ height: '100vh' }}>
         <div className="col-lg-6 col-md-6 col-sm-6 mt-3 mx-auto">

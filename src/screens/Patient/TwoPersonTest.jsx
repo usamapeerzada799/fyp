@@ -1,8 +1,10 @@
-import {useLocation,useNavigate} from 'react-router-dom'
+ 
+
+ import {useLocation,useNavigate} from 'react-router-dom'
 import React,{ useEffect,useState } from "react";
 import GlobalVariables from '../Doctor/Globel';
 import { FaVolumeUp } from "react-icons/fa";
-const PatientPersonTest = () => {
+const TwoPersonTest  = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [Test,setTest]=useState([{Path:"",description:""}]);
@@ -26,9 +28,9 @@ const PatientPersonTest = () => {
      const FeactData=async()=>{
      try {
         const recivedata=location.state;
-        console.log(recivedata);
+        console.log(recivedata.pid);
         setReciveDataCheck(recivedata);
-        const responce = await fetch(GlobalVariables.apiUrl+ `/api/Person/GetAssignPersonTest?pid=${recivedata.pid}`);
+        const responce = await fetch(GlobalVariables.apiUrl+ `/api/Person/GetTwoPersonTest?uid=8`);
          data=await responce.json()
         setDatalength(data.length)
         console.log(data)
@@ -71,10 +73,14 @@ const PatientPersonTest = () => {
       if(Test){
       const shuffledOptions = shuffleArray([
           
-          { path: Test[currentIndex]?.Path, option: Test[currentIndex]?.CollectId ,audio:Test[currentIndex]?.collectAudio,Usertype:Test[currentIndex]?.UserType},
+          { path: Test[currentIndex]?.PicPath, option: Test[currentIndex]?.CollectId ,audio:Test[currentIndex]?.collectAudio,Usertype:Test[currentIndex]?.UserType},
           { path: Test[currentIndex]?.Op1ImagePath, option: Test[currentIndex]?.Opt1,audio:Test[currentIndex]?.Op1Audio,Usertype:Test[currentIndex]?.UserType },
           { path: Test[currentIndex]?.Op2ImagePath, option: Test[currentIndex]?.Opt2, audio:Test[currentIndex]?.Op2Audio,Usertype:Test[currentIndex]?.UserType },
-          { path: Test[currentIndex]?.Op3ImagePath, option: Test[currentIndex]?.Opt3,audio:Test[currentIndex]?.Op3Audio,Usertype:Test[currentIndex]?.UserType }
+          { path: Test[currentIndex]?.Op3ImagePath, option: Test[currentIndex]?.Opt3,audio:Test[currentIndex]?.Op3Audio,Usertype:Test[currentIndex]?.UserType },
+          { path: Test[currentIndex]?.PicPath2, option: Test[currentIndex]?.CollectId ,audio:Test[currentIndex]?.collectAudio1,Usertype:Test[currentIndex]?.UserType},
+          { path: Test[currentIndex]?.Op4ImagePath, option: Test[currentIndex]?.Opt4,audio:Test[currentIndex]?.Op4Audio,Usertype:Test[currentIndex]?.UserType },
+          { path: Test[currentIndex]?.Op5ImagePath, option: Test[currentIndex]?.Opt5, audio:Test[currentIndex]?.Op5Audio,Usertype:Test[currentIndex]?.UserType },
+          { path: Test[currentIndex]?.Op6ImagePath, option: Test[currentIndex]?.Opt6,audio:Test[currentIndex]?.Op6Audio,Usertype:Test[currentIndex]?.UserType }
       ]);
       console.log(shuffledOptions)
       setOptions(shuffledOptions);
@@ -175,9 +181,9 @@ const playAudio = (audioUrl) => {
       <div className="text-white text-center fs-1" style={{borderBottomLeftRadius:'90%' ,height:120,width:'100%',backgroundColor:"#AB91D9"}}>
      
      </div>
-      <div className=" text-white text-center fs-1" style={{borderTopRightRadius:'90%' ,height:120,width:'100%',backgroundColor:"#AB91D9", position: 'fixed', bottom: 0, left: 0}}>
+      {/* <div className=" text-white text-center fs-1" style={{borderTopRightRadius:'90%' ,height:120,width:'100%',backgroundColor:"#AB91D9", position: 'fixed', bottom: 0, left: 0}}>
      
-     </div>
+     </div> */}
     {Test &&
     <div className="align-items-center" style={{ height: '100vh' }}>
         <div className="col-lg-6 col-md-6 col-sm-6 mt-3 mx-auto">
@@ -185,7 +191,8 @@ const playAudio = (audioUrl) => {
                 <div className="card-body item-center">
                     <h5 className="card-title fs-5" style={{ marginLeft: '0.59rem' }}>{Test[currentIndex]?.questionTitle}</h5>
                     <div className="row">
-                    <h2>{Test[currentIndex]?.Question}</h2>
+                    <h2>{Test[currentIndex]?.QuestionTitle
+                    }</h2>
                     {options.map((item, imageIndex) => (
                                 <div key={imageIndex} className="col-6 mt-4">
                                     {!reciveDataCheck.uid &&  
@@ -213,4 +220,4 @@ const playAudio = (audioUrl) => {
     </div>
   )
 }
-export default PatientPersonTest
+export default TwoPersonTest 
