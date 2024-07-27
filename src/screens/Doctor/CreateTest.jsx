@@ -6,7 +6,6 @@ const CreateTest = () => {
     const [selectedOption, setSelectedOption] = useState('a');
     const [selectStage, setSelectStage] = useState('select stage');
     const [title, setTitle] = useState('')
-    const [data, setData] = useState([])
     const [collectionData, setCollectionData] = useState([]);
     const [testData,setTestData]=useState([])
     const[testQuestonTitle,setTestQuestionTitle]=useState('');
@@ -29,7 +28,7 @@ const CreateTest = () => {
             const responce = await fetch(GlobalVariables.apiUrl + "/api/Collection/GetAllCollection");
             const data = await responce.json();
             console.log(data);
-            setData(data);
+           
             const groupedItems = data.reduce((groups, item) => {
               const { C_group } = item;
               if (!groups[C_group]) {

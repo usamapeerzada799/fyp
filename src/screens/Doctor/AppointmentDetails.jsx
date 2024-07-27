@@ -13,9 +13,7 @@ const AppointmentDetails = () => {
   const [allAppointDates,setAllAppoointDates]=useState([])
   const [testData,setTestData]=useState([]);
   const [ChartData,setChartData]=useState([]);
-  const [progress,setProgress]=useState(0);
   const [AddAppointScreenData,setAddAppointScreenData]=useState();
-  const [date,setDate]=useState();
   const [recvData,setRecvData]=useState({userId:0})
   const navigate = useNavigate();
     const location = useLocation();
@@ -77,11 +75,9 @@ const AppointmentDetails = () => {
      console.log(trueCount)  
      const proges =((trueCount / totElement) * 100).toFixed(2);
      console.log(proges)
-     setProgress(proges)
+    
     }
-    else{
-      setProgress(0)
-    }
+   
 if(data?.PracticeData?.length>0){
      const alpha=data?.PracticeData?.filter(item=> item.type==='a')
     setAlphabets(alpha);
@@ -140,15 +136,7 @@ if(data?.PracticeData?.length>0){
         </div>
       </div>}
     </div>
-    {/* {testData?.length>0 && <div>
-    <div><span>Progress</span></div>
-    <div className="progress" style={{height:30}} >
-      <div className="progress-bar" role="progressbar" aria-valuenow="70"
-      aria-valuemin="0" aria-valuemax="100" style={{width:progress+'%',backgroundColor:'#ab91d9'}}>
-        <span className="sr-only fs-5">{progress}%</span>
-      </div>
-    </div>
-    </div>}     */}
+   
     <Chart data={ChartData} title={"Test Graph"}/>
     {(recvData.userId && recvData.nextAppointDate) &&
     <div className="row justify-content-center">
