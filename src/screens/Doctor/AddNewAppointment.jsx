@@ -4,11 +4,9 @@ import "react-datetime/css/react-datetime.css";
 import {useLocation,useNavigate} from 'react-router-dom'
 import GlobalVariables from './Globel';
 import { useSelector } from 'react-redux';
-import Practice from './Practice';
-import PersonPractice from '../Caregiver/PersonPractice';
+
 const AddNewAppointment = () => {
   const [date,setDate]=useState(new Date())
-  const [addAppoinmentData,setAddAppointmentData]=useState({})
   const [reciveDataCheck,setReciveDataCheck]=useState({})
   const[nextAppDate,setNextAppDate]=useState()
   const navigate = useNavigate();

@@ -9,7 +9,6 @@ const AddPractic = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [collectionData, setCollectionData] = useState([]);
   const [collectData, setCollectData] = useState([]);
-  const [newPraticData, setNewPracticData] = useState({});
   const[reciveDataCheck,setReciveDataCheck]=useState(0)
   const [title, setTitle] = useState('')
   const navigate = useNavigate()
