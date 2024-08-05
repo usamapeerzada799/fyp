@@ -38,6 +38,7 @@ import Chart from './chart/Chart.jsx'
 import { useDataContext,DataContextProvider } from './screens/DataContext.jsx';
 import Store from './screens/Store.js';
 import './index.css'
+import ForLerningDesign from './screens/ForLerningDesign.jsx';
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -113,6 +114,10 @@ const router = createBrowserRouter(
    {
     path:'/AddNewCollection',
     element:<AddNewCollection/>
+  },
+  {
+    path:'/ForLerningDesign',
+    element:<ForLerningDesign/>
   },
   {
     path:'/AddTowpersonSentences',
